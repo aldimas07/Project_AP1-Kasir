@@ -140,7 +140,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText("Tampilkan Kata Sandi");
+        jCheckBox1.setText("Tampilkan Kata Sandiiiii");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);

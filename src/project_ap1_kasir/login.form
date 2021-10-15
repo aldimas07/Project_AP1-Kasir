@@ -204,7 +204,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="jCheckBox1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tampilkan Kata Sandi"/>
+        <Property name="text" type="java.lang.String" value="Tampilkan Kata Sandiiiii"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>
