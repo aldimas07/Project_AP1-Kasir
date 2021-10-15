@@ -71,7 +71,6 @@ public class login extends javax.swing.JFrame {
         jLabel2.setText("Password");
 
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        txtUser.setForeground(new java.awt.Color(155, 155, 155));
         txtUser.setPreferredSize(new java.awt.Dimension(111, 20));
         txtUser.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -82,6 +81,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        txtPass.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         txtPass.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPassFocusGained(evt);
@@ -91,40 +91,46 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        validasiuser.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        validasiuser.setText("()");
+
+        validasipass.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        validasipass.setText("()");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addGap(107, 107, 107)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(validasipass)
-                    .addComponent(validasiuser)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(validasiuser))
+                .addGap(58, 58, 58))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(validasiuser)
-                .addGap(34, 34, 34)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(validasipass)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnLogin.setText("LOGIN");
@@ -165,7 +171,7 @@ public class login extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                         .addComponent(btnLogin)
                         .addGap(25, 25, 25))
                     .addGroup(layout.createSequentialGroup()
@@ -214,7 +220,7 @@ public class login extends javax.swing.JFrame {
         if(password.equals("")){
             txtPass.setText("Masukkan Password");
             txtPass.setEchoChar((char)0);
-            txtPass.setForeground(new Color(155,155,155));
+            txtPass.setForeground(Color.black);
         }
     }//GEN-LAST:event_txtPassFocusLost
 
@@ -247,13 +253,13 @@ public class login extends javax.swing.JFrame {
         bersihkan_notif();
         if(username.equals("Masukkan Username") || password.equals("Masukkan Password") || password.length() < 3) {
             if(password.length() < 3 ) {
-                validasiuser.setText("Password Harus Lebih Dari 3 Karakter!");
+                validasiuser.setText("*Password Harus Lebih Dari 3 Karakter!");
             }
             if(password.equals("Masukkan Password")){
-                validasipass.setText("Password tidak boleh kosong!");
+                validasipass.setText("*Password tidak boleh kosong!");
             }
             if(username.equals("Masukkan Username")){
-                validasiuser.setText("Username tidak boleh kosong!");
+                validasiuser.setText("*Username tidak boleh kosong!");
             }
         } 
         else{
@@ -273,7 +279,7 @@ public class login extends javax.swing.JFrame {
                       dispose();
                   }
                   else {
-                      JOptionPane.showMessageDialog(this, "Password Salah!");
+                      JOptionPane.showMessageDialog(this, "Username/Password salah!!");
                   }
                 }
                 else {
