@@ -13,10 +13,11 @@ import java.sql.DriverManager;
  * @author ACER
  */
 public class koneksi {
-    
+        
         public static Connection con = null;
         public static Connection ambil_koneksi(){
         try{
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             con = DriverManager.getConnection("jdbc:mysql://localhost/kasir_db","root","");
         }
         catch(Exception e){
