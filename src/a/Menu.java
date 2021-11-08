@@ -37,9 +37,6 @@ public class Menu extends javax.swing.JFrame {
         lb_tambahpesan = new javax.swing.JLabel();
         lb_minuman = new javax.swing.JLabel();
         lb_makanan = new javax.swing.JLabel();
-        tf_subtotal = new javax.swing.JTextField();
-        tf_namamenu = new javax.swing.JTextField();
-        tf_namapemesan = new javax.swing.JTextField();
         panel_utama = new javax.swing.JPanel();
         makanan = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -47,6 +44,10 @@ public class Menu extends javax.swing.JFrame {
         minuman = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        lb_tambahmenu = new javax.swing.JLabel();
+        lb_hapusmenu = new javax.swing.JLabel();
+        lb_editmenu = new javax.swing.JLabel();
+        lb_exit = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,15 +92,6 @@ public class Menu extends javax.swing.JFrame {
         });
         getContentPane().add(lb_makanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 190, 50));
 
-        tf_subtotal.setBorder(null);
-        getContentPane().add(tf_subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 200, 220, 27));
-
-        tf_namamenu.setBorder(null);
-        getContentPane().add(tf_namamenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 343, 220, 27));
-
-        tf_namapemesan.setBorder(null);
-        getContentPane().add(tf_namapemesan, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 125, 160, 30));
-
         panel_utama.setLayout(new java.awt.CardLayout());
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -119,11 +111,13 @@ public class Menu extends javax.swing.JFrame {
         makanan.setLayout(makananLayout);
         makananLayout.setHorizontalGroup(
             makananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+            .addGroup(makananLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         makananLayout.setVerticalGroup(
             makananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
 
         panel_utama.add(makanan, "card_makanan");
@@ -145,18 +139,22 @@ public class Menu extends javax.swing.JFrame {
         minuman.setLayout(minumanLayout);
         minumanLayout.setHorizontalGroup(
             minumanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
         );
         minumanLayout.setVerticalGroup(
             minumanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
 
         panel_utama.add(minuman, "card_minuman");
 
-        getContentPane().add(panel_utama, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 490, 450));
+        getContentPane().add(panel_utama, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 545, 455));
+        getContentPane().add(lb_tambahmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 140, 30));
+        getContentPane().add(lb_hapusmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 165, 140, 30));
+        getContentPane().add(lb_editmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 140, 30));
+        getContentPane().add(lb_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(775, 5, 20, 20));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/menu.jpg"))); // NOI18N
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/menu rev.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -234,17 +232,18 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lb_editmenu;
+    private javax.swing.JLabel lb_exit;
+    private javax.swing.JLabel lb_hapusmenu;
     private javax.swing.JLabel lb_jumlah;
     private javax.swing.JLabel lb_kurang;
     private javax.swing.JLabel lb_makanan;
     private javax.swing.JLabel lb_minuman;
     private javax.swing.JLabel lb_tambah;
+    private javax.swing.JLabel lb_tambahmenu;
     private javax.swing.JLabel lb_tambahpesan;
     private javax.swing.JPanel makanan;
     private javax.swing.JPanel minuman;
     private javax.swing.JPanel panel_utama;
-    private javax.swing.JTextField tf_namamenu;
-    private javax.swing.JTextField tf_namapemesan;
-    private javax.swing.JTextField tf_subtotal;
     // End of variables declaration//GEN-END:variables
 }

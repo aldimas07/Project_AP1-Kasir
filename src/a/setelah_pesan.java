@@ -9,12 +9,12 @@ package a;
  *
  * @author ACER
  */
-public class riwayat_pesanan extends javax.swing.JFrame {
+public class setelah_pesan extends javax.swing.JFrame {
 
     /**
-     * Creates new form riwayat_pesanan
+     * Creates new form setelah_pesan
      */
-    public riwayat_pesanan() {
+    public setelah_pesan() {
         initComponents();
     }
 
@@ -27,16 +27,16 @@ public class riwayat_pesanan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lb_back = new javax.swing.JLabel();
-        lb_next = new javax.swing.JLabel();
+        lb_batalkan = new javax.swing.JLabel();
+        lb_konfirm = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(lb_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 50, 20));
-        getContentPane().add(lb_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 50, 20));
+        getContentPane().add(lb_batalkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 140, 30));
+        getContentPane().add(lb_konfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 470, 150, 30));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/riwayat pesanan.jpg"))); // NOI18N
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a/sng jare rizal.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -59,27 +59,27 @@ public class riwayat_pesanan extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(riwayat_pesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(setelah_pesan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(riwayat_pesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(setelah_pesan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(riwayat_pesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(setelah_pesan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(riwayat_pesanan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(setelah_pesan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new riwayat_pesanan().setVisible(true);
+                new setelah_pesan().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
-    private javax.swing.JLabel lb_back;
-    private javax.swing.JLabel lb_next;
+    private javax.swing.JLabel lb_batalkan;
+    private javax.swing.JLabel lb_konfirm;
     // End of variables declaration//GEN-END:variables
 }
