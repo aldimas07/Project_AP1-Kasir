@@ -113,6 +113,7 @@ public class Login extends javax.swing.JFrame {
 
                     if (res_cekpass.next()) {//jika password benar
                         Index i = new Index();
+                        i.setLd_kasir(res_cekpass.getString("LD_KASIR"));
                         i.setVisible(true);
                         this.dispose();
                     } else {

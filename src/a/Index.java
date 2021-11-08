@@ -5,17 +5,30 @@
  */
 package a;
 
+import static a.Login.con;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import project_ap1_kasir.koneksi;
+
 /**
  *
  * @author ACER
  */
 public class Index extends javax.swing.JFrame {
+    public static Connection con = new koneksi().ambil_koneksi();
+    private String ld_kasir;
 
     /**
      * Creates new form Index
      */
     public Index() {
         initComponents();
+    }
+    public void setLd_kasir(String ld_kasir) {
+        this.ld_kasir = ld_kasir;
     }
 
     /**
@@ -27,14 +40,28 @@ public class Index extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_name = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         lb_logout = new javax.swing.JLabel();
         lb_riwayatpesanan = new javax.swing.JLabel();
         lb_pesanmakanan = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbl_name.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_name.setText("XXXXX");
+        getContentPane().add(lbl_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
+
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Selamat Datang, ");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
 
         lb_logout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -85,6 +112,18 @@ public class Index extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lb_logoutMouseClicked
 
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        try {
+            // TODO add your handling code here:
+            ResultSet res_user = con.prepareStatement("SELECT * from kasir where LD_KASIR='" + ld_kasir +"'").executeQuery();
+            if (res_user.next()) {
+                lbl_name.setText(res_user.getString("NAMA"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formComponentShown
+
     /**
      * @param args the command line arguments
      */
@@ -122,8 +161,10 @@ public class Index extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lb_logout;
     private javax.swing.JLabel lb_pesanmakanan;
     private javax.swing.JLabel lb_riwayatpesanan;
+    private javax.swing.JLabel lbl_name;
     // End of variables declaration//GEN-END:variables
 }
