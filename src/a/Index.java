@@ -40,12 +40,33 @@ public class Index extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
         lbl_name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lb_logout = new javax.swing.JLabel();
         lb_riwayatpesanan = new javax.swing.JLabel();
         lb_pesanmakanan = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
+
+        jDialog1.setModal(true);
+
+        jLabel1.setText("nyobak");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -100,16 +121,21 @@ public class Index extends javax.swing.JFrame {
 
     private void lb_riwayatpesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_riwayatpesananMouseClicked
         //pindah ke from riwayat pemesanan
-        riwayat_pesanan hitory = new riwayat_pesanan();
-        hitory.setVisible(true);
-        this.dispose();
+//        riwayat_pesanan hitory = new riwayat_pesanan();
+//        hitory.setVisible(true);
+//        this.dispose();
+        jDialog1.setVisible(true);
+        jDialog1.dispose();
     }//GEN-LAST:event_lb_riwayatpesananMouseClicked
 
     private void lb_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_logoutMouseClicked
         //pindah ke form homepage
-        Homepage home = new Homepage();
-        home.setVisible(true);
-        this.dispose();
+        jDialog1.setVisible(true);
+        jDialog1.dispose();
+        
+//        Homepage home = new Homepage();
+//        home.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_lb_logoutMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
@@ -161,6 +187,8 @@ public class Index extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lb_logout;
     private javax.swing.JLabel lb_pesanmakanan;
