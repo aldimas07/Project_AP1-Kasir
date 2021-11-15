@@ -790,13 +790,46 @@ public class Menu extends javax.swing.JFrame {
 
     private void lb_editmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_editmenuMouseClicked
         // TODO add your handling code here:
-        
+        if (idMenu_selected != null && idMenu_selected != "") {
+            PreparedStatement pstMenu;
+            try {
+                pstMenu = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU=?");
+                pstMenu.setString(1, idMenu_selected);
+                ResultSet rstMakanan = pstMenu.executeQuery();
+                if (rstMakanan.next()) {
+                    
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jDialog4.pack();
+            jDialog4.setVisible(true);
+            jDialog4.dispose();
+            updatedbmakanan();
+        }
     }//GEN-LAST:event_lb_editmenuMouseClicked
 
     private void lb_hapusmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_hapusmenuMouseClicked
         // TODO add your handling code here:
         if (idMenu_selected != null && idMenu_selected != "") {
             try {
+                PreparedStatement pstMakanan = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU=?");
+                pstMakanan.setString(1, idMenu_selected);
+                ResultSet rstMakanan = pstMakanan.executeQuery();
+                if (rstMakanan.next()) {
+                    PreparedStatement pstMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
+                    pstMakananHapus.setString(1, idMenu_selected);
+                    pstMakananHapus.executeUpdate();
+                } else {
+                    PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
+                    pstMinuman.setString(1, idMenu_selected);
+                    ResultSet rstMinuman = pstMinuman.executeQuery();
+                    if (rstMinuman.next()) {
+                        PreparedStatement pstMinumanHapus = (PreparedStatement) con.prepareStatement("DELETE FROM minuman WHERE ID_MENU=?");
+                        pstMinumanHapus.setString(1, idMenu_selected);
+                        pstMinumanHapus.executeUpdate();
+                    }
+                }
                 pst = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
                 pst.setString(1, idMenu_selected);
                 pst.executeUpdate();
