@@ -771,6 +771,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         int baris = tabel_listmakanan.rowAtPoint(evt.getPoint());
         idMenu_selected = tabel_listmakanan.getValueAt(baris, 0).toString();
+        System.out.println(idMenu_selected);
     }//GEN-LAST:event_tabel_listmakananMouseClicked
 
     private void jDialog4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jDialog4ComponentShown
