@@ -6,12 +6,16 @@
 package a;
 
 import static a.Login.con;
+import static a.Menu.con;
+import com.mysql.jdbc.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import project_ap1_kasir.koneksi;
+import a.Menu;
 
 /**
  *
@@ -150,6 +154,7 @@ public class Index extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentShown
 
+    
     /**
      * @param args the command line arguments
      */
