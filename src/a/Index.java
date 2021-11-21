@@ -80,11 +80,11 @@ public class Index extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbl_name.setForeground(new java.awt.Color(0, 0, 0));
+        lbl_name.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbl_name.setText("XXXXX");
-        getContentPane().add(lbl_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, -1, -1));
+        getContentPane().add(lbl_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, -1, 20));
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Selamat Datang, ");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
 
@@ -109,8 +109,8 @@ public class Index extends javax.swing.JFrame {
         });
         getContentPane().add(lb_pesanmakanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 350, 70));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/tampilan awal setelah login.jpg"))); // NOI18N
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/tampilan awal setelah login_1.jpg"))); // NOI18N
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
         setLocationRelativeTo(null);

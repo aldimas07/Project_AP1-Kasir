@@ -29,15 +29,17 @@ public class setelah_pesan extends javax.swing.JFrame {
 
         lb_batalkan = new javax.swing.JLabel();
         lb_konfirm = new javax.swing.JLabel();
+        lb_exit = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(lb_batalkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 140, 30));
         getContentPane().add(lb_konfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 470, 150, 30));
+        getContentPane().add(lb_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(767, 10, 15, 15));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/a/sng jare rizal.jpg"))); // NOI18N
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/sng jare rizal.jpg"))); // NOI18N
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -80,6 +82,7 @@ public class setelah_pesan extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
     private javax.swing.JLabel lb_batalkan;
+    private javax.swing.JLabel lb_exit;
     private javax.swing.JLabel lb_konfirm;
     // End of variables declaration//GEN-END:variables
 }
