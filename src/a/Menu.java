@@ -5,7 +5,19 @@
  */
 package a;
 
+import com.mysql.jdbc.PreparedStatement;
 import java.awt.CardLayout;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import project_ap1_kasir.koneksi;
 
 /**
  *
@@ -13,11 +25,23 @@ import java.awt.CardLayout;
  */
 public class Menu extends javax.swing.JFrame {
 
+    public static Connection con = new koneksi().ambil_koneksi();
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    String idMenu_selected;
+    String idminuman_selected;
+
     /**
      * Creates new form Menu
      */
     public Menu() {
         initComponents();
+//        tampildatamakanan();
+        list_menu_makanan();
+        list_menu_minuman();
+//        list_makanan();
+//        list_minuman();
+
     }
 
     /**
@@ -29,6 +53,35 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog3 = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        txtIdMenu = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtNamaMenu = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        spStok = new javax.swing.JSpinner();
+        spHarga = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        rdMakananTmbh = new javax.swing.JRadioButton();
+        rdMinumanTmbh = new javax.swing.JRadioButton();
+        jDialog4 = new javax.swing.JDialog();
+        jLabel7 = new javax.swing.JLabel();
+        txtIdMenu1 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtNamaMenu1 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        spStok1 = new javax.swing.JSpinner();
+        spHarga1 = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        rdMakananEdit = new javax.swing.JRadioButton();
+        rdMinumanEdit = new javax.swing.JRadioButton();
+        jButton6 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         lb_kurang = new javax.swing.JLabel();
         lb_tambah = new javax.swing.JLabel();
         lb_jumlah = new javax.swing.JLabel();
@@ -40,17 +93,248 @@ public class Menu extends javax.swing.JFrame {
         panel_utama = new javax.swing.JPanel();
         makanan = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabel_listmakanan = new javax.swing.JTable();
         minuman = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabel_listminuman = new javax.swing.JTable();
         lb_tambahmenu = new javax.swing.JLabel();
         lb_hapusmenu = new javax.swing.JLabel();
         lb_editmenu = new javax.swing.JLabel();
         lb_exit = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
+        jDialog3.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog3.setTitle("Tambah Menu");
+        jDialog3.setModal(true);
+
+        jLabel3.setText("ID Menu");
+
+        jLabel4.setText("Nama Menu");
+
+        jLabel5.setText("Stok");
+
+        spStok.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        spHarga.setModel(new javax.swing.SpinnerNumberModel(5000, 100, null, 100));
+
+        jLabel6.setText("Harga");
+
+        jButton2.setText("Tambah");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Tipe Menu");
+
+        buttonGroup1.add(rdMakananTmbh);
+        rdMakananTmbh.setText("Makanan");
+        rdMakananTmbh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdMakananTmbhActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rdMinumanTmbh);
+        rdMinumanTmbh.setText("Minuman");
+        rdMinumanTmbh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdMinumanTmbhActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog3Layout = new javax.swing.GroupLayout(jDialog3.getContentPane());
+        jDialog3.getContentPane().setLayout(jDialog3Layout);
+        jDialog3Layout.setHorizontalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog3Layout.createSequentialGroup()
+                        .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(39, 39, 39)
+                        .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spStok)
+                            .addComponent(spHarga)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addGroup(jDialog3Layout.createSequentialGroup()
+                        .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDialog3Layout.createSequentialGroup()
+                                .addComponent(rdMakananTmbh)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rdMinumanTmbh)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtIdMenu)
+                            .addComponent(txtNamaMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jDialog3Layout.setVerticalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtIdMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNamaMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(rdMakananTmbh)
+                    .addComponent(rdMinumanTmbh))
+                .addGap(4, 4, 4)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spStok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jDialog4.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog4.setTitle("Tambah Menu");
+        jDialog4.setModal(true);
+        jDialog4.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jDialog4ComponentShown(evt);
+            }
+        });
+
+        jLabel7.setText("ID Menu");
+
+        txtIdMenu1.setEnabled(false);
+
+        jLabel8.setText("Nama Menu");
+
+        jLabel9.setText("Stok");
+
+        spStok1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        spHarga1.setModel(new javax.swing.SpinnerNumberModel(5000, 100, null, 100));
+
+        jLabel10.setText("Harga");
+
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Tipe Menu");
+
+        buttonGroup2.add(rdMakananEdit);
+        rdMakananEdit.setText("Makanan");
+        rdMakananEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdMakananEditActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(rdMinumanEdit);
+        rdMinumanEdit.setText("Minuman");
+        rdMinumanEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdMinumanEditActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Batal");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog4Layout = new javax.swing.GroupLayout(jDialog4.getContentPane());
+        jDialog4.getContentPane().setLayout(jDialog4Layout);
+        jDialog4Layout.setHorizontalGroup(
+            jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog4Layout.createSequentialGroup()
+                        .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtIdMenu1)
+                            .addComponent(txtNamaMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEdit))
+                    .addGroup(jDialog4Layout.createSequentialGroup()
+                        .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)
+                        .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spStok1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jDialog4Layout.createSequentialGroup()
+                                .addComponent(rdMakananEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rdMinumanEdit)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(spHarga1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
+        );
+        jDialog4Layout.setVerticalGroup(
+            jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtIdMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtNamaMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdMakananEdit)
+                    .addComponent(jLabel11)
+                    .addComponent(rdMinumanEdit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spStok1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spHarga1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEdit)
+                    .addComponent(jButton6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(lb_kurang, new org.netbeans.lib.awtextra.AbsoluteConstraints(678, 280, 20, 15));
         getContentPane().add(lb_tambah, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 20, 15));
@@ -94,7 +378,7 @@ public class Menu extends javax.swing.JFrame {
 
         panel_utama.setLayout(new java.awt.CardLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_listmakanan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -102,10 +386,23 @@ public class Menu extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "makanan", "Title 2", "Title 3", "Title 4"
+                "ID Menu", "Nama Makanan", "Stok", "Harga"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabel_listmakanan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_listmakananMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabel_listmakanan);
 
         javax.swing.GroupLayout makananLayout = new javax.swing.GroupLayout(makanan);
         makanan.setLayout(makananLayout);
@@ -122,7 +419,7 @@ public class Menu extends javax.swing.JFrame {
 
         panel_utama.add(makanan, "card_makanan");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabel_listminuman.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -130,10 +427,23 @@ public class Menu extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "minuman", "Title 2", "Title 3", "Title 4"
+                "ID Menu", "Nama Minuman", "Stok", "Harga"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabel_listminuman.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_listminumanMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabel_listminuman);
 
         javax.swing.GroupLayout minumanLayout = new javax.swing.GroupLayout(minuman);
         minuman.setLayout(minumanLayout);
@@ -149,9 +459,33 @@ public class Menu extends javax.swing.JFrame {
         panel_utama.add(minuman, "card_minuman");
 
         getContentPane().add(panel_utama, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 545, 455));
+
+        lb_tambahmenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_tambahmenuMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_tambahmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 140, 30));
+
+        lb_hapusmenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_hapusmenuMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_hapusmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 165, 140, 30));
+
+        lb_editmenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_editmenuMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_editmenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 140, 30));
+
+        lb_exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_exitMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(775, 5, 20, 20));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/menu rev.jpg"))); // NOI18N
@@ -164,6 +498,7 @@ public class Menu extends javax.swing.JFrame {
         //membuka tabel makanan
         CardLayout clayout = (CardLayout) panel_utama.getLayout();
         clayout.show(panel_utama, "card_makanan");
+//        tampildatamakanan();
     }//GEN-LAST:event_lb_makananMouseClicked
 
     private void lb_minumanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_minumanMouseClicked
@@ -186,8 +521,401 @@ public class Menu extends javax.swing.JFrame {
     private void lb_tambahpesanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_tambahpesanMouseClicked
         //pindah ke form 
         //beri peringatan (?) kalau pesanan sudah berhasil ditambahkan lalu bari kluk tombol next buat ke form selanjutnya
-        
+
     }//GEN-LAST:event_lb_tambahpesanMouseClicked
+
+    private void lb_tambahmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_tambahmenuMouseClicked
+        // TODO add your handling code here:
+        jDialog3.pack();
+        jDialog3.setVisible(true);
+        jDialog3.dispose();
+        updatedbmakanan();
+//        jDialog2.pack();
+//        jDialog2.dispose();
+
+//        if (tabel_listmakanan.isShowing()) {
+//            jDialog1.setVisible(true);
+//        } else if (tabel_listminuman.isShowing()) {
+//            jDialog2.setVisible(true);
+//        }
+    }//GEN-LAST:event_lb_tambahmenuMouseClicked
+
+    private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_lb_exitMouseClicked
+
+    private void refreshTableMenu() {
+
+    }
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        updatedbmakanan();
+    }//GEN-LAST:event_formComponentShown
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String namamenu = txtNamaMenu.getText();
+        String idMenu = txtIdMenu.getText();
+        int stock_menu = (int) spStok.getValue();
+        int stock_harga = (int) spHarga.getValue();
+
+        try {
+            pst = (PreparedStatement) con.prepareStatement("INSERT INTO menu (ID_MENU, STOCK, HARGA) VALUES (?, ?, ?)");
+            pst.setString(1, idMenu);
+            pst.setInt(2, stock_menu);
+            pst.setString(3, String.valueOf(stock_harga));
+            pst.executeUpdate();
+            if (rdMakananTmbh.isSelected()) {
+                pst = (PreparedStatement) con.prepareStatement("INSERT INTO makanan (ID_MENU, NAMA_MAKANAN) VALUES (?, ?)");
+                pst.setString(1, idMenu);
+                pst.setString(2, namamenu);
+                pst.executeUpdate();
+            }
+            if (rdMinumanTmbh.isSelected()) {
+                pst = (PreparedStatement) con.prepareStatement("INSERT INTO minuman (ID_MENU, NAMA_MINUMAN) VALUES (?, ?)");
+                pst.setString(1, idMenu);
+                pst.setString(2, namamenu);
+                pst.executeUpdate();
+            }
+            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan");
+            jDialog3.setVisible(false);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        String ls_idmenu = txtIdMenu1.getText();
+        String ld_namamenu = txtNamaMenu1.getText();
+//        String tipe_menu;
+//        if (rdMakananEdit.isSelected()) {
+//            tipe_menu = "Makanan";
+//        } else {
+//            tipe_menu = "Minuman";
+//        }
+        int ls_stok = Integer.parseInt(spStok1.getValue().toString());
+        int ls_harga = Integer.parseInt(spHarga1.getValue().toString());
+        if (idMenu_selected != null && idMenu_selected != "") {
+            PreparedStatement pstMenu;
+            try {
+                if (rdMakananEdit.isSelected()) {
+                    pstMenu = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU=?");
+                    pstMenu.setString(1, idMenu_selected);
+                    ResultSet rstMakanan = pstMenu.executeQuery();
+                    if (rstMakanan.next()) {
+                        PreparedStatement pstUpdateMakanan = (PreparedStatement) con.prepareStatement("UPDATE makanan SET ID_MENU = '" + ls_idmenu + "', NAMA_MAKANAN = '" + ld_namamenu + "' "
+                                + "WHERE ID_MENU = '" + ls_idmenu + "'");
+                        PreparedStatement pstUpdateMenuMakanan = (PreparedStatement) con.prepareStatement("UPDATE menu SET STOCK = '" + ls_stok + "', HARGA = '" + ls_harga + "' "
+                                + "WHERE ID_MENU = '" + ls_idmenu + "'");
+                        pstUpdateMakanan.executeUpdate();
+                        pstUpdateMenuMakanan.executeUpdate();
+                    }
+                    JOptionPane.showMessageDialog(this, "Data Berhasil Diubah!");
+                    
+                } else if (rdMinumanEdit.isSelected()) {
+                    pstMenu = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
+                    pstMenu.setString(1, idMenu_selected);
+                    ResultSet rstMinuman = pstMenu.executeQuery();
+                    if (rstMinuman.next()) {
+                        PreparedStatement pstUpdateMinuman = (PreparedStatement) con.prepareStatement("UPDATE minuman SET ID_MENU = '" + ls_idmenu + "', NAMA_MINUMAN = '" + ld_namamenu + "' "
+                                + "WHERE ID_MENU = '" + ls_idmenu + "'");
+                        PreparedStatement pstUpdateMenuMinuman = (PreparedStatement) con.prepareStatement("UPDATE menu SET STOCK = '" + ls_stok + "', HARGA = '" + ls_harga + "' "
+                                + "WHERE ID_MENU = '" + ls_idmenu + "'");
+                        pstUpdateMinuman.executeUpdate();
+                        pstUpdateMenuMinuman.executeUpdate();
+                    }
+                    JOptionPane.showMessageDialog(this, "Data Berhasil Diubah!");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex);
+            }
+            updatedbmakanan();
+        } else {
+            JOptionPane.showMessageDialog(this, "Silakan klik salah satu menu dahulu!");
+        }
+
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void rdMakananEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMakananEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdMakananEditActionPerformed
+
+    private void rdMinumanEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMinumanEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdMinumanEditActionPerformed
+
+    private void rdMakananTmbhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMakananTmbhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdMakananTmbhActionPerformed
+
+    private void rdMinumanTmbhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMinumanTmbhActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdMinumanTmbhActionPerformed
+
+    private void tabel_listmakananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_listmakananMouseClicked
+        // TODO add your handling code here:
+        int baris = tabel_listmakanan.rowAtPoint(evt.getPoint());
+        idMenu_selected = tabel_listmakanan.getValueAt(baris, 0).toString();
+        txtIdMenu1.setText(idMenu_selected);
+
+        String ls_namamenu = tabel_listmakanan.getValueAt(baris, 1).toString();
+        txtNamaMenu1.setText(ls_namamenu);
+
+        rdMakananEdit.setSelected(true);
+
+        String ls_stok = tabel_listmakanan.getValueAt(baris, 2).toString();
+        spStok1.setValue(Integer.parseInt(ls_stok));
+
+        String ls_harga = tabel_listmakanan.getValueAt(baris, 3).toString();
+        spHarga1.setValue(Integer.parseInt(ls_harga));
+        System.out.println(idMenu_selected);
+    }//GEN-LAST:event_tabel_listmakananMouseClicked
+
+    private void jDialog4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jDialog4ComponentShown
+        // TODO add your handling code here:
+        jDialog4.setTitle("Ubah Pesanan");
+        String sqlmakanan = "SELECT * FROM menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU";
+        try {
+            pst = (PreparedStatement) con.prepareStatement(sqlmakanan);
+            rs = pst.executeQuery();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jDialog4ComponentShown
+
+    private void lb_editmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_editmenuMouseClicked
+        // TODO add your handling code here:
+        if (idMenu_selected != null && idMenu_selected != "") {
+            PreparedStatement pstMenu;
+            jDialog4.pack();
+            jDialog4.setVisible(true);
+            jDialog4.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Silakan klik salah satu menu dahulu!");
+        }
+    }//GEN-LAST:event_lb_editmenuMouseClicked
+
+    private void lb_hapusmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_hapusmenuMouseClicked
+        // TODO add your handling code here:
+        if (idMenu_selected != null && idMenu_selected != "") {
+            try {
+                PreparedStatement pstMakanan = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU= '"+idMenu_selected+"'");
+                pstMakanan.setString(1, idMenu_selected);
+                ResultSet rstMakanan = pstMakanan.executeQuery();
+                if (rstMakanan.next()) {
+                    PreparedStatement pstMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU= '"+idMenu_selected+"'");
+                    PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '"+idMenu_selected+"'");
+                    pstMakananHapus.setString(1, idMenu_selected);
+                    pstMakananHapus.executeUpdate();
+                    pstMenuMakananHapus.executeUpdate();
+                    
+                    PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU= '"+idMenu_selected+"'");
+                    pstMinuman.setString(1, idMenu_selected);
+                    ResultSet rstMinuman = pstMinuman.executeQuery();
+                    if (rstMinuman.next()) {
+                        PreparedStatement pstMinumanHapus = (PreparedStatement) con.prepareStatement("DELETE FROM minuman WHERE ID_MENU= '"+idMenu_selected+"'");
+                        PreparedStatement pstHapusMenuMinuman = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU= '"+idMenu_selected+"");
+                        pstMinumanHapus.setString(1, idMenu_selected);
+                        pstMinumanHapus.executeUpdate();
+                        pstHapusMenuMinuman.executeUpdate();
+                    }
+                }
+                pst = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
+                pst.setString(1, idMenu_selected);
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+                updatedbmakanan();
+            } catch (SQLException ex) {
+                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Silakan pilih menu yang akan dihapus!");
+        }
+    }//GEN-LAST:event_lb_hapusmenuMouseClicked
+
+    private void tabel_listminumanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_listminumanMouseClicked
+        // TODO add your handling code here:
+        int baris = tabel_listminuman.rowAtPoint(evt.getPoint());
+        idMenu_selected = tabel_listminuman.getValueAt(baris, 0).toString();
+        txtIdMenu1.setText(idMenu_selected);
+
+        String ls_namamenu = tabel_listminuman.getValueAt(baris, 1).toString();
+        txtNamaMenu1.setText(ls_namamenu);
+
+        rdMinumanEdit.setSelected(true);
+
+        String ls_stok = tabel_listminuman.getValueAt(baris, 2).toString();
+        spStok1.setValue(Integer.parseInt(ls_stok));
+
+        String ls_harga = tabel_listminuman.getValueAt(baris, 3).toString();
+        spHarga1.setValue(Integer.parseInt(ls_harga));
+
+    }//GEN-LAST:event_tabel_listminumanMouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        jDialog4.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+//    private void tampildatamakanan(){ 
+//        try {
+//            String output_menu = "";
+//            output_menu = "SELECT menu.ID_MENU, makanan.NAMA_MAKANAN, menu.STOCK FROM menu "
+//                        + "INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU";
+//                PreparedStatement ps_tampilmenumakanan = (PreparedStatement) con.prepareStatement(output_menu);
+//                ResultSet rs_tampilmenumakanan = ps_tampilmenumakanan.executeQuery();
+//                DefaultTableModel tb_menumakanan = (DefaultTableModel) tabel_listmakanan.getModel();
+//                
+//                while (rs_tampilmenumakanan.next()) {
+//                    Object data[] = new Object[4];
+//                    data[0] = rs_tampilmenumakanan.getString("ID_MENU");
+//                    data[1] = rs_tampilmenumakanan.getString("NAMA_MAKANAN");
+//                    data[2] = rs_tampilmenumakanan.getString("STOCK");
+//                    data[3] = rs_tampilmenumakanan.getString("HARGA");
+//                    
+//                    tb_menumakanan.addRow(data);
+//                }
+//            
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+    private void list_menu_makanan() {
+        try {
+            String output = "SELECT menu.stock, makanan.nama_makanan from makanan inner join menu on menu.id_menu = makanan.id_menu where stock  >= 1";
+            PreparedStatement ps_listmenumakanan = (PreparedStatement) con.prepareStatement(output);
+            ResultSet rs_listmenumakanan = ps_listmenumakanan.executeQuery();
+            DefaultTableModel tb_add_listmakanan = (DefaultTableModel) tabel_listmakanan.getModel();
+
+            tb_add_listmakanan.setRowCount(0);
+
+            while (rs_listmenumakanan.next()) {
+                Object data[] = new Object[2];
+                data[0] = rs_listmenumakanan.getString("STOCK");
+                data[1] = rs_listmenumakanan.getString("NAMA_MAKANAN");
+
+                tb_add_listmakanan.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void list_menu_minuman() {
+        try {
+            String output = "SELECT menu.stock, minuman.nama_minuman from minuman inner join menu on menu.id_menu = minuman.id_menu where stock  >= 1";
+            PreparedStatement ps_listmenuminuman = (PreparedStatement) con.prepareStatement(output);
+            ResultSet rs_listmenuminuman = ps_listmenuminuman.executeQuery();
+            DefaultTableModel tb_add_listminuman = (DefaultTableModel) tabel_listminuman.getModel();
+
+            tb_add_listminuman.setRowCount(0);
+
+            while (rs_listmenuminuman.next()) {
+                Object data[] = new Object[2];
+                data[0] = rs_listmenuminuman.getString("STOCK");
+                data[1] = rs_listmenuminuman.getString("NAMA_MINUMAN");
+
+                tb_add_listminuman.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+//    private void list_makanan() {
+//        try {
+//            String output = "SELECT makanan.NAMA_MAKANAN from makanan";
+//            PreparedStatement ps_listmakanan = (PreparedStatement) con.prepareStatement(output);
+//            ResultSet rs_listmakanan = ps_listmakanan.executeQuery();
+//            DefaultTableModel tb_add_makanan = (DefaultTableModel) tabeladd_makanan.getModel();
+//
+//            tb_add_makanan.setRowCount(0);
+//
+//            while (rs_listmakanan.next()) {
+//                Object data[] = new Object[1];
+//                data[0] = rs_listmakanan.getString("NAMA_MAKANAN");
+//
+//                tb_add_makanan.addRow(data);
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+//    private void list_minuman() {
+//        try {
+//            String output = "SELECT minuman.NAMA_MINUMAN from minuman";
+//            PreparedStatement ps_listminuman = (PreparedStatement) con.prepareStatement(output);
+//            ResultSet rs_listminuman = ps_listminuman.executeQuery();
+//            DefaultTableModel tb_add_minuman = (DefaultTableModel) tabeladd_minuman.getModel();
+//
+//            tb_add_minuman.setRowCount(0);
+//
+//            while (rs_listminuman.next()) {
+//                Object data[] = new Object[1];
+//                data[0] = rs_listminuman.getString("NAMA_MINUMAN");
+//
+//                tb_add_minuman.addRow(data);
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+    private void updatedbmakanan() {
+        try {
+            String sqlmakanan = "SELECT * FROM menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU";
+//            String output = "select * from menu, makanan, minuman";
+            pst = (PreparedStatement) con.prepareStatement(sqlmakanan);
+            rs = pst.executeQuery();
+            ResultSetMetaData stData = rs.getMetaData();
+            int q = stData.getColumnCount();
+
+            DefaultTableModel tb_list_makanan = (DefaultTableModel) tabel_listmakanan.getModel();
+            tb_list_makanan.setRowCount(0);
+
+            while (rs.next()) {
+                Vector columndata = new Vector();
+                for (int i = 1; i < q; i++) {
+//                    columndata.add(rs.getString("STOCK"));
+//                    columndata.add(rs.getString("NAMA_MAKANAN"));
+                    columndata.add(rs.getString("ID_MENU"));
+                    columndata.add(rs.getString("NAMA_MAKANAN"));
+                    columndata.add(rs.getString("STOCK"));
+                    columndata.add(rs.getString("HARGA"));
+                }
+                tb_list_makanan.addRow(columndata);
+            }
+            String sqlminuman = "SELECT * FROM menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU";
+//            String output = "select * from menu, makanan, minuman";
+            pst = (PreparedStatement) con.prepareStatement(sqlminuman);
+            rs = pst.executeQuery();
+            stData = rs.getMetaData();
+            q = stData.getColumnCount();
+
+            DefaultTableModel tb_list_minuman = (DefaultTableModel) tabel_listminuman.getModel();
+            tb_list_minuman.setRowCount(0);
+
+            while (rs.next()) {
+                Vector columndata = new Vector();
+                for (int i = 1; i < q; i++) {
+//                    columndata.add(rs.getString("STOCK"));
+//                    columndata.add(rs.getString("NAMA_MAKANAN"));
+                    columndata.add(rs.getString("ID_MENU"));
+                    columndata.add(rs.getString("NAMA_MINUMAN"));
+                    columndata.add(rs.getString("STOCK"));
+                    columndata.add(rs.getString("HARGA"));
+                }
+                tb_list_minuman.addRow(columndata);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -228,10 +956,25 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JLabel bt_back;
     private javax.swing.JLabel bt_next;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JDialog jDialog3;
+    private javax.swing.JDialog jDialog4;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lb_editmenu;
     private javax.swing.JLabel lb_exit;
     private javax.swing.JLabel lb_hapusmenu;
@@ -245,5 +988,19 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel makanan;
     private javax.swing.JPanel minuman;
     private javax.swing.JPanel panel_utama;
+    private javax.swing.JRadioButton rdMakananEdit;
+    private javax.swing.JRadioButton rdMakananTmbh;
+    private javax.swing.JRadioButton rdMinumanEdit;
+    private javax.swing.JRadioButton rdMinumanTmbh;
+    private javax.swing.JSpinner spHarga;
+    private javax.swing.JSpinner spHarga1;
+    private javax.swing.JSpinner spStok;
+    private javax.swing.JSpinner spStok1;
+    private javax.swing.JTable tabel_listmakanan;
+    private javax.swing.JTable tabel_listminuman;
+    private javax.swing.JTextField txtIdMenu;
+    private javax.swing.JTextField txtIdMenu1;
+    private javax.swing.JTextField txtNamaMenu;
+    private javax.swing.JTextField txtNamaMenu1;
     // End of variables declaration//GEN-END:variables
 }
