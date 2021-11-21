@@ -572,13 +572,20 @@ public class Menu extends javax.swing.JFrame {
                 pst.setString(2, namamenu);
                 pst.executeUpdate();
             }
-            if (rdMinumanTmbh.isSelected()) {
+            else if (rdMinumanTmbh.isSelected()) {
                 pst = (PreparedStatement) con.prepareStatement("INSERT INTO minuman (ID_MENU, NAMA_MINUMAN) VALUES (?, ?)");
                 pst.setString(1, idMenu);
                 pst.setString(2, namamenu);
                 pst.executeUpdate();
+            } else {
+                JOptionPane.showMessageDialog(this, "Silakan Pilih Tipe Menu!");
             }
             JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan");
+            txtNamaMenu.setText("");
+            txtIdMenu.setText("");
+            buttonGroup1.clearSelection();
+            spStok.setValue("");
+            spHarga.setValue("");
             jDialog3.setVisible(false);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -627,6 +634,9 @@ public class Menu extends javax.swing.JFrame {
                         pstUpdateMenuMinuman.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Data Berhasil Diubah!");
+                    jDialog4.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Silakan Pilih Tipe Menu!");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
@@ -704,30 +714,29 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (idMenu_selected != null && idMenu_selected != "") {
             try {
-                PreparedStatement pstMakanan = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU= '"+idMenu_selected+"'");
+                PreparedStatement pstMakanan = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU WHERE makanan.ID_MENU=?");
                 pstMakanan.setString(1, idMenu_selected);
                 ResultSet rstMakanan = pstMakanan.executeQuery();
                 if (rstMakanan.next()) {
-                    PreparedStatement pstMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU= '"+idMenu_selected+"'");
-                    PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '"+idMenu_selected+"'");
+                    PreparedStatement pstMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
                     pstMakananHapus.setString(1, idMenu_selected);
                     pstMakananHapus.executeUpdate();
+                    PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '"+idMenu_selected+"'");
                     pstMenuMakananHapus.executeUpdate();
                     
-                    PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU= '"+idMenu_selected+"'");
+                } else {
+                    PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
                     pstMinuman.setString(1, idMenu_selected);
                     ResultSet rstMinuman = pstMinuman.executeQuery();
                     if (rstMinuman.next()) {
-                        PreparedStatement pstMinumanHapus = (PreparedStatement) con.prepareStatement("DELETE FROM minuman WHERE ID_MENU= '"+idMenu_selected+"'");
-                        PreparedStatement pstHapusMenuMinuman = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU= '"+idMenu_selected+"");
+                        PreparedStatement pstMinumanHapus = (PreparedStatement) con.prepareStatement("DELETE FROM minuman WHERE ID_MENU=?");
                         pstMinumanHapus.setString(1, idMenu_selected);
                         pstMinumanHapus.executeUpdate();
+                        PreparedStatement pstHapusMenuMinuman = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU= '" + idMenu_selected + "'");
                         pstHapusMenuMinuman.executeUpdate();
                     }
+                    
                 }
-                pst = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
-                pst.setString(1, idMenu_selected);
-                pst.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
                 updatedbmakanan();
             } catch (SQLException ex) {
