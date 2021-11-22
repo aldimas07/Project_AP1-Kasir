@@ -62,7 +62,7 @@ public class Menu extends javax.swing.JFrame {
         spStok = new javax.swing.JSpinner();
         spHarga = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnTambah = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         rdMakananTmbh = new javax.swing.JRadioButton();
         rdMinumanTmbh = new javax.swing.JRadioButton();
@@ -119,10 +119,10 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel6.setText("Harga");
 
-        jButton2.setText("Tambah");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnTambah.setText("Tambah");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnTambahActionPerformed(evt);
             }
         });
 
@@ -161,7 +161,7 @@ public class Menu extends javax.swing.JFrame {
                             .addComponent(spHarga)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnTambah))
                     .addGroup(jDialog3Layout.createSequentialGroup()
                         .addGroup(jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
@@ -203,7 +203,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(spHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnTambah)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -553,44 +553,78 @@ public class Menu extends javax.swing.JFrame {
         updatedbmakanan();
     }//GEN-LAST:event_formComponentShown
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         // TODO add your handling code here:
-        String namamenu = txtNamaMenu.getText();
-        String idMenu = txtIdMenu.getText();
-        int stock_menu = (int) spStok.getValue();
-        int stock_harga = (int) spHarga.getValue();
-
         try {
-            pst = (PreparedStatement) con.prepareStatement("INSERT INTO menu (ID_MENU, STOCK, HARGA) VALUES (?, ?, ?)");
-            pst.setString(1, idMenu);
-            pst.setInt(2, stock_menu);
-            pst.setString(3, String.valueOf(stock_harga));
-            pst.executeUpdate();
-            if (rdMakananTmbh.isSelected()) {
-                pst = (PreparedStatement) con.prepareStatement("INSERT INTO makanan (ID_MENU, NAMA_MAKANAN) VALUES (?, ?)");
-                pst.setString(1, idMenu);
-                pst.setString(2, namamenu);
-                pst.executeUpdate();
+            String namamenu = txtNamaMenu.getText();
+            String idMenu = txtIdMenu.getText();
+            int stock_menu = (int) spStok.getValue();
+            int stock_harga = (int) spHarga.getValue();
+
+            String sql_idmenu = "SELECT * FROM menu WHERE ID_MENU = '" + txtIdMenu.getText() + "'";
+            ResultSet rs_idmenu = con.prepareStatement(sql_idmenu).executeQuery();
+            if (rs_idmenu.next()) {
+                JOptionPane.showMessageDialog(this, "Menu dengan ID Menu " + txtIdMenu.getText() + " sudah ada!");
+
+            } else { // Jika ada field yang tidak terisi
+                if (txtIdMenu.getText().equals("") || txtNamaMenu.getText().equals("") || spStok.getValue().toString() == null || spHarga.getValue().toString() == null || buttonGroup1.getSelection() == null) {
+                    if (txtIdMenu.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "Field 'ID Menu' belum terisi!");
+                    } else if (txtNamaMenu.getText().equals("")) {
+                        JOptionPane.showMessageDialog(this, "Field 'Nama Menu' belum terisi!");
+                    } else if (buttonGroup1.getSelection() == null) {
+                        JOptionPane.showMessageDialog(this, "Silakan pilih tipe menu!");
+                    } else if (spStok.getValue().toString() == null) {
+                        JOptionPane.showMessageDialog(this, "Field 'Stok' belum terisi!");
+                    } else if (spHarga.getValue().toString() == null) {
+                        JOptionPane.showMessageDialog(this, "Field 'Harga' belum terisi!");
+                    }
+                } else {   //Semua field terisi lalu eksekusi query
+                    try {
+                        pst = (PreparedStatement) con.prepareStatement("INSERT INTO menu (ID_MENU, STOCK, HARGA) VALUES (?, ?, ?)");
+                        pst.setString(1, idMenu);
+                        pst.setInt(2, stock_menu);
+                        pst.setString(3, String.valueOf(stock_harga));
+                        pst.executeUpdate();
+                        if (rdMakananTmbh.isSelected()) {
+                            pst = (PreparedStatement) con.prepareStatement("INSERT INTO makanan (ID_MENU, NAMA_MAKANAN) VALUES (?, ?)");
+                            pst.setString(1, idMenu);
+                            pst.setString(2, namamenu);
+                            pst.executeUpdate();
+
+                            txtNamaMenu.setText("");
+                            txtIdMenu.setText("");
+                            buttonGroup1.clearSelection();
+                            jDialog3.setVisible(false);
+                        } else if (rdMinumanTmbh.isSelected()) {
+                            pst = (PreparedStatement) con.prepareStatement("INSERT INTO minuman (ID_MENU, NAMA_MINUMAN) VALUES (?, ?)");
+                            pst.setString(1, idMenu);
+                            pst.setString(2, namamenu);
+                            pst.executeUpdate();
+
+                            txtNamaMenu.setText("");
+                            txtIdMenu.setText("");
+                            buttonGroup1.clearSelection();
+                            jDialog3.setVisible(false);
+                        }
+
+                        JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan");
+                        txtNamaMenu.setText("");
+                        txtIdMenu.setText("");
+                        buttonGroup1.clearSelection();
+                        spStok.setValue("");
+                        spHarga.setValue("");
+                        jDialog3.setVisible(false);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
             }
-            else if (rdMinumanTmbh.isSelected()) {
-                pst = (PreparedStatement) con.prepareStatement("INSERT INTO minuman (ID_MENU, NAMA_MINUMAN) VALUES (?, ?)");
-                pst.setString(1, idMenu);
-                pst.setString(2, namamenu);
-                pst.executeUpdate();
-            } else {
-                JOptionPane.showMessageDialog(this, "Silakan Pilih Tipe Menu!");
-            }
-            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan");
-            txtNamaMenu.setText("");
-            txtIdMenu.setText("");
-            buttonGroup1.clearSelection();
-            spStok.setValue("");
-            spHarga.setValue("");
-            jDialog3.setVisible(false);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
@@ -620,7 +654,7 @@ public class Menu extends javax.swing.JFrame {
                         pstUpdateMenuMakanan.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Data Berhasil Diubah!");
-                    
+
                 } else if (rdMinumanEdit.isSelected()) {
                     pstMenu = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
                     pstMenu.setString(1, idMenu_selected);
@@ -721,9 +755,10 @@ public class Menu extends javax.swing.JFrame {
                     PreparedStatement pstMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM makanan WHERE ID_MENU=?");
                     pstMakananHapus.setString(1, idMenu_selected);
                     pstMakananHapus.executeUpdate();
-                    PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '"+idMenu_selected+"'");
+                    PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '" + idMenu_selected + "'");
                     pstMenuMakananHapus.executeUpdate();
                     
+
                 } else {
                     PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
                     pstMinuman.setString(1, idMenu_selected);
@@ -735,9 +770,13 @@ public class Menu extends javax.swing.JFrame {
                         PreparedStatement pstHapusMenuMinuman = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU= '" + idMenu_selected + "'");
                         pstHapusMenuMinuman.executeUpdate();
                     }
-                    
+
                 }
                 JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+                txtIdMenu1.setText("");
+                txtNamaMenu1.setText("");
+                buttonGroup2.clearSelection();
+                
                 updatedbmakanan();
             } catch (SQLException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
@@ -772,29 +811,6 @@ public class Menu extends javax.swing.JFrame {
         jDialog4.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-//    private void tampildatamakanan(){ 
-//        try {
-//            String output_menu = "";
-//            output_menu = "SELECT menu.ID_MENU, makanan.NAMA_MAKANAN, menu.STOCK FROM menu "
-//                        + "INNER JOIN makanan ON makanan.ID_MENU = menu.ID_MENU";
-//                PreparedStatement ps_tampilmenumakanan = (PreparedStatement) con.prepareStatement(output_menu);
-//                ResultSet rs_tampilmenumakanan = ps_tampilmenumakanan.executeQuery();
-//                DefaultTableModel tb_menumakanan = (DefaultTableModel) tabel_listmakanan.getModel();
-//                
-//                while (rs_tampilmenumakanan.next()) {
-//                    Object data[] = new Object[4];
-//                    data[0] = rs_tampilmenumakanan.getString("ID_MENU");
-//                    data[1] = rs_tampilmenumakanan.getString("NAMA_MAKANAN");
-//                    data[2] = rs_tampilmenumakanan.getString("STOCK");
-//                    data[3] = rs_tampilmenumakanan.getString("HARGA");
-//                    
-//                    tb_menumakanan.addRow(data);
-//                }
-//            
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
     private void list_menu_makanan() {
         try {
             String output = "SELECT menu.stock, makanan.nama_makanan from makanan inner join menu on menu.id_menu = makanan.id_menu where stock  >= 1";
@@ -966,9 +982,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel bt_back;
     private javax.swing.JLabel bt_next;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnTambah;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
     private javax.swing.JDialog jDialog3;
     private javax.swing.JDialog jDialog4;
