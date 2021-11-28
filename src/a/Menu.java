@@ -543,6 +543,9 @@ public class Menu extends javax.swing.JFrame {
     private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked
         // TODO add your handling code here:
         this.dispose();
+        Index i = new Index();
+        i.setVisible(true);
+        
     }//GEN-LAST:event_lb_exitMouseClicked
 
     private void refreshTableMenu() {

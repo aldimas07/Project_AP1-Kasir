@@ -125,21 +125,16 @@ public class Index extends javax.swing.JFrame {
 
     private void lb_riwayatpesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_riwayatpesananMouseClicked
         //pindah ke from riwayat pemesanan
-//        riwayat_pesanan hitory = new riwayat_pesanan();
-//        hitory.setVisible(true);
-//        this.dispose();
-        jDialog1.setVisible(true);
-        jDialog1.dispose();
+        this.dispose();
+        riwayat_pesanan i = new riwayat_pesanan();
+        i.setVisible(true);
     }//GEN-LAST:event_lb_riwayatpesananMouseClicked
 
     private void lb_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_logoutMouseClicked
         //pindah ke form homepage
-        jDialog1.setVisible(true);
-        jDialog1.dispose();
-        
-//        Homepage home = new Homepage();
-//        home.setVisible(true);
-//        this.dispose();
+        this.dispose();
+        Login i = new Login();
+        i.setVisible(true);
     }//GEN-LAST:event_lb_logoutMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
