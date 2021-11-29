@@ -5,6 +5,9 @@
  */
 package a;
 
+import static a.Login.con;
+import static a.Login.password;
+import static a.Login.username;
 import com.mysql.jdbc.PreparedStatement;
 import java.awt.CardLayout;
 import java.sql.Connection;
@@ -403,6 +406,12 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tabel_listmakanan);
+        if (tabel_listmakanan.getColumnModel().getColumnCount() > 0) {
+            tabel_listmakanan.getColumnModel().getColumn(0).setResizable(false);
+            tabel_listmakanan.getColumnModel().getColumn(1).setResizable(false);
+            tabel_listmakanan.getColumnModel().getColumn(2).setResizable(false);
+            tabel_listmakanan.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout makananLayout = new javax.swing.GroupLayout(makanan);
         makanan.setLayout(makananLayout);
@@ -444,6 +453,12 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tabel_listminuman);
+        if (tabel_listminuman.getColumnModel().getColumnCount() > 0) {
+            tabel_listminuman.getColumnModel().getColumn(0).setResizable(false);
+            tabel_listminuman.getColumnModel().getColumn(1).setResizable(false);
+            tabel_listminuman.getColumnModel().getColumn(2).setResizable(false);
+            tabel_listminuman.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout minumanLayout = new javax.swing.GroupLayout(minuman);
         minuman.setLayout(minumanLayout);
@@ -542,10 +557,32 @@ public class Menu extends javax.swing.JFrame {
 
     private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked
         // TODO add your handling code here:
-        this.dispose();
-        Index i = new Index();
-        i.setVisible(true);
-        
+        try {
+            //untuk mengecek username telah terdaftar di database atau tidak
+            String cek_username = "SELECT * FROM kasir WHERE USERNAME = '" + username + "'";
+            ResultSet res_cekuser = con.prepareStatement(cek_username).executeQuery();
+
+            if (res_cekuser.next()) {
+                String cek_password = "SELECT * FROM kasir WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "'";
+                ResultSet res_cekpass = con.prepareStatement(cek_password).executeQuery();
+
+                if (res_cekpass.next()) {//jika password benar
+                    Index i = new Index();
+                    i.setLd_kasir(res_cekpass.getString("LD_KASIR"));
+                    i.setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Cek kembali username atau password Anda!");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Data tidak terdaftar dalam database kami!");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }//GEN-LAST:event_lb_exitMouseClicked
 
     private void refreshTableMenu() {
@@ -760,7 +797,6 @@ public class Menu extends javax.swing.JFrame {
                     pstMakananHapus.executeUpdate();
                     PreparedStatement pstMenuMakananHapus = (PreparedStatement) con.prepareStatement("DELETE FROM menu WHERE ID_MENU = '" + idMenu_selected + "'");
                     pstMenuMakananHapus.executeUpdate();
-                    
 
                 } else {
                     PreparedStatement pstMinuman = (PreparedStatement) con.prepareStatement("SELECT * from menu INNER JOIN minuman ON minuman.ID_MENU = menu.ID_MENU WHERE minuman.ID_MENU=?");
@@ -779,7 +815,7 @@ public class Menu extends javax.swing.JFrame {
                 txtIdMenu1.setText("");
                 txtNamaMenu1.setText("");
                 buttonGroup2.clearSelection();
-                
+
                 updatedbmakanan();
             } catch (SQLException ex) {
                 Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);

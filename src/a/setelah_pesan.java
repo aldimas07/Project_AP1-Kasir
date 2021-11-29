@@ -5,20 +5,59 @@
  */
 package a;
 
+import static a.Menu.con;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.table.DefaultTableModel;
+import project_ap1_kasir.koneksi;
 
 /**
  *
  * @author ACER
  */
 public class setelah_pesan extends javax.swing.JFrame {
+
     /**
      * Creates new form setelah_pesan
      */
+    public static Connection con = new koneksi().ambil_koneksi();
+
     public setelah_pesan() {
         initComponents();
-        jPanel1.setBackground(new Color(0,0,0,60));
-        jPanel2.setBackground(new Color(0,0,0,60));
+        jPanel1.setBackground(new Color(0, 0, 0, 0));
+        jPanel2.setBackground(new Color(0, 0, 0, 0));
+        tampilJList();
+    }
+
+    private void tampilJList() {
+        try {
+
+            DefaultListModel model = new DefaultListModel(); //create a new list model
+
+            Statement state = con.createStatement();
+            ResultSet resultSet = state.executeQuery("SELECT pelanggan.NO_ANTRIAN FROM pelanggan "
+                    + "INNER JOIN transaksi ON pelanggan.NO_ANTRIAN = transaksi.NO_ANTRIAN"); //run your query
+
+            while (resultSet.next()) //go through each row that your query returns
+            {
+                String itemCode = resultSet.getString("NO_ANTRIAN"); //get the element in column "item_code"
+                model.addElement(itemCode); //add each item to the model
+            }
+            jList1.setModel(model);
+
+            resultSet.close();
+            state.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -61,12 +100,18 @@ public class setelah_pesan extends javax.swing.JFrame {
         jLabel4.setText("Tunai");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, -1, -1));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
         });
         jScrollPane2.setViewportView(jList1);
 
@@ -97,26 +142,44 @@ public class setelah_pesan extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID_Menu", "Nama Menu", "Jumlah", "Harga"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setColumnSelectionAllowed(true);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(419, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 420, 550));
@@ -129,6 +192,66 @@ public class setelah_pesan extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        // TODO add your handling code here:
+        try {
+            String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
+            System.out.println(ls_antrian);
+            String sql = "select transaksi.id_menu, makanan.nama_makanan, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) AS HARGA from transaksi"
+                    + " inner join makanan on makanan.id_menu = transaksi.id_menu"
+                    + " inner join menu on menu.id_menu = transaksi.id_menu"
+                    + " where transaksi.no_antrian = '" + ls_antrian + "'group by menu.id_menu";
+
+//            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
+//                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
+//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
+//                    + " where transaksi.no_antrian = '"+ls_antrian+"'group by menu.id_menu";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            
+            if (rs.next()) {
+                String ls_idmenu = rs.getString("ID_MENU");
+                System.out.println(ls_idmenu);
+                String ls_namamenu = rs.getString("NAMA_MAKANAN");
+                System.out.println(ls_namamenu);
+                String ls_jumlah = rs.getString("JUMLAH_PESANAN");
+                System.out.println(ls_jumlah);
+                int ls_harga = rs.getInt("HARGA");
+                System.out.println(ls_jumlah);
+                pst.setString(1, ls_idmenu);
+                pst.setString(2, ls_namamenu);
+                pst.setString(3, ls_jumlah);
+                pst.setInt(4, ls_harga);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+//            ResultSetMetaData stData = rs.getMetaData();
+//            int q = stData.getColumnCount();
+//            
+//            DefaultTableModel tb_transaksi = (DefaultTableModel) jTable1.getModel();
+//            tb_transaksi.setColumnCount(0);
+//            
+//            while (rs.next()) {
+//                Vector columndata = new Vector();
+//                for (int i = 1; i <q; i++) {
+//                    columndata.add(rs.getString("ID_MENU"));
+//                    columndata.add(rs.getString("NAMA_MAKANAN"));
+//                    columndata.add(rs.getString("JUMLAH_PESANAN"));
+//                    columndata.add(rs.getString("HARGA"));
+//                }
+//                tb_transaksi.addRow(columndata);
+//            }
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
