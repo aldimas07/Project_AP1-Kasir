@@ -29,12 +29,29 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
         lb_back = new javax.swing.JLabel();
         lb_next = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(lb_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 50, 20));
         getContentPane().add(lb_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 50, 20));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 700, 410));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/riwayat pesanan.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -79,6 +96,8 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lb_back;
     private javax.swing.JLabel lb_next;
     // End of variables declaration//GEN-END:variables

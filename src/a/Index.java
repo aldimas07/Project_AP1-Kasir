@@ -49,6 +49,7 @@ public class Index extends javax.swing.JFrame {
         lbl_name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lb_logout = new javax.swing.JLabel();
+        lb_pesanan = new javax.swing.JLabel();
         lb_riwayatpesanan = new javax.swing.JLabel();
         lb_pesanmakanan = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
@@ -93,23 +94,30 @@ public class Index extends javax.swing.JFrame {
                 lb_logoutMouseClicked(evt);
             }
         });
-        getContentPane().add(lb_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 350, 70));
+        getContentPane().add(lb_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 500, 350, 70));
+
+        lb_pesanan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_pesananMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lb_pesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 350, 70));
 
         lb_riwayatpesanan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lb_riwayatpesananMouseClicked(evt);
             }
         });
-        getContentPane().add(lb_riwayatpesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 350, 70));
+        getContentPane().add(lb_riwayatpesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 350, 70));
 
         lb_pesanmakanan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lb_pesanmakananMouseClicked(evt);
             }
         });
-        getContentPane().add(lb_pesanmakanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 350, 70));
+        getContentPane().add(lb_pesanmakanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 210, 350, 70));
 
-        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/tampilan awal setelah login_1.jpg"))); // NOI18N
+        bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/tampilan awal setelah login.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
@@ -148,6 +156,10 @@ public class Index extends javax.swing.JFrame {
             Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formComponentShown
+
+    private void lb_pesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_pesananMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lb_pesananMouseClicked
 
     
     /**
@@ -191,6 +203,7 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lb_logout;
+    private javax.swing.JLabel lb_pesanan;
     private javax.swing.JLabel lb_pesanmakanan;
     private javax.swing.JLabel lb_riwayatpesanan;
     private javax.swing.JLabel lbl_name;
