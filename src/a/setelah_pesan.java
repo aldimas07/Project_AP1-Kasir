@@ -103,9 +103,10 @@ public class setelah_pesan extends javax.swing.JFrame {
     private void initComponents() {
 
         lb_batalkan = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -127,18 +128,45 @@ public class setelah_pesan extends javax.swing.JFrame {
         getContentPane().add(lb_batalkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 140, 30));
 
         jLabel1.setText("Jumlah Pesanan Rp.");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, -1, -1));
 
         jLabel2.setText("Pembayaran");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, -1, -1));
-
-        jLabel3.setText("xxxxx");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 30, -1));
 
         jLabel4.setText("Tunai");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, -1, -1));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addContainerGap(198, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 200, 250));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX" };
@@ -172,14 +200,14 @@ public class setelah_pesan extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 560));
 
-        jPanel2.setLayout(new java.awt.GridLayout());
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID_Menu", "Nama_Menu", "Jumlah", "Harga"
+                "ID_Menu", "Nama_Menu", "Jumlah", "Jumlah Harga"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -214,7 +242,7 @@ public class setelah_pesan extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         try {
-
+            int harga_asli = 0;
             String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
             System.out.println(ls_antrian);
             String sql = "select transaksi.id_menu, makanan.nama_makanan, transaksi.jumlah_pesanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
@@ -239,6 +267,8 @@ public class setelah_pesan extends javax.swing.JFrame {
                 String ls_jumlah = rs.getString("JUMLAH_PESANAN");
                 System.out.println(ls_jumlah);
                 int ls_harga = rs.getInt("HARGA");
+                harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
+                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
                 System.out.println(ls_jumlah);
                 
@@ -269,8 +299,10 @@ public class setelah_pesan extends javax.swing.JFrame {
                 String ls_jumlah = rs.getString("JUMLAH_PESANAN");
 //                System.out.println(ls_jumlah);
                 int ls_harga = rs.getInt("HARGA");
+                harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
+                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-                jLabel3.setText(String.valueOf(ls_harga_asli));
+                jLabel3.setText(String.valueOf(harga_asli));
 //                System.out.println(ls_jumlah);
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
@@ -336,6 +368,7 @@ public class setelah_pesan extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
