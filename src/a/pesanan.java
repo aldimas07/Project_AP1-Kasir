@@ -5,17 +5,31 @@
  */
 package a;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static project_ap1_kasir.koneksi.con;
+
 /**
  *
  * @author ACER
  */
 public class pesanan extends javax.swing.JFrame {
 
+    String status_selected;
+    String ls_idpesanan;
+
     /**
      * Creates new form pesanan
      */
     public pesanan() {
         initComponents();
+        tampil_tabel_tunggupesanan();
+        tampil_tabel_konfirmasipesanan();
+        tampil_tabel_batalpesanan();
     }
 
     /**
@@ -27,29 +41,374 @@ public class pesanan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabel_tunggupesanan = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabel_konfirmasipesanan = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabel_batalpesanan = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        lbl_batal = new javax.swing.JLabel();
+        lbl_terima = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/pesanan.jpg"))); // NOI18N
+        tabel_tunggupesanan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 806, Short.MAX_VALUE))
+            },
+            new String [] {
+                "ID Transaksi", "ID Bayar", "No Antrian"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabel_tunggupesanan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabel_tunggupesananMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabel_tunggupesanan);
+        if (tabel_tunggupesanan.getColumnModel().getColumnCount() > 0) {
+            tabel_tunggupesanan.getColumnModel().getColumn(0).setResizable(false);
+            tabel_tunggupesanan.getColumnModel().getColumn(1).setResizable(false);
+            tabel_tunggupesanan.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 410, 460));
+
+        tabel_konfirmasipesanan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Pesanan", "ID Bayar", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tabel_konfirmasipesanan);
+        if (tabel_konfirmasipesanan.getColumnModel().getColumnCount() > 0) {
+            tabel_konfirmasipesanan.getColumnModel().getColumn(0).setResizable(false);
+            tabel_konfirmasipesanan.getColumnModel().getColumn(1).setResizable(false);
+            tabel_konfirmasipesanan.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, 300, 210));
+
+        tabel_batalpesanan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Pesanan", "ID Bayar", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tabel_batalpesanan);
+        if (tabel_batalpesanan.getColumnModel().getColumnCount() > 0) {
+            tabel_batalpesanan.getColumnModel().getColumn(0).setResizable(false);
+            tabel_batalpesanan.getColumnModel().getColumn(1).setResizable(false);
+            tabel_batalpesanan.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 300, 220));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/pesanan.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        lbl_batal.setText("jLabel1");
+        lbl_batal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_batalMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lbl_batal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 140, 40));
+
+        lbl_terima.setText("jLabel3");
+        lbl_terima.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_terimaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lbl_terima, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 110, 40));
+
+        jLabel4.setText("jLabel4");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 120, 40));
+
+        jLabel5.setText("jLabel5");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 140, 40));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lbl_terimaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_terimaMouseClicked
+        // TODO add your handling code here:
+
+        if (ls_idpesanan == null && ls_idpesanan == "") {
+            JOptionPane.showMessageDialog(this, "Silakan Pilih salah satu pesanan!");
+
+        } else {
+            int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan menerima pesanan ini?");
+            if (opsi == JOptionPane.YES_OPTION) {
+                try {
+                    String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.ID_PESANAN = ?";
+                    PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                    pst.setString(1, ls_idpesanan);
+                    ResultSet rs = pst.executeQuery();
+                    if (rs.next()) {
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.ID_PESANAN = ?");
+                        pst_terimaupdate.setString(1, ls_idpesanan);
+                        pst_terimaupdate.executeUpdate();
+                    }
+                    JOptionPane.showMessageDialog(this, "Pesanan telah dikonfirmasi!");
+                    update_table_konfirmasi();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage() + "- button terima bermasalah");
+                }
+                update_table_tunggu();
+            } else {
+                JOptionPane.showMessageDialog(this, "Perintah dibatalkan!");
+            }
+        }
+    }//GEN-LAST:event_lbl_terimaMouseClicked
+
+    private void tabel_tunggupesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabel_tunggupesananMouseClicked
+        // TODO add your handling code here:
+        int baris = tabel_tunggupesanan.rowAtPoint(evt.getPoint());
+        ls_idpesanan = tabel_tunggupesanan.getValueAt(baris, 0).toString();
+        String ls_idbayar = tabel_tunggupesanan.getValueAt(baris, 1).toString();
+        status_selected = tabel_tunggupesanan.getValueAt(baris, 2).toString();
+    }//GEN-LAST:event_tabel_tunggupesananMouseClicked
+
+    private void lbl_batalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_batalMouseClicked
+        // TODO add your handling code here:
+        if (ls_idpesanan == null && ls_idpesanan == "") {
+            JOptionPane.showMessageDialog(this, "Silakan Pilih salah satu pesanan!");
+
+        } else {
+            int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan menerima pesanan ini?");
+            if (opsi == JOptionPane.YES_OPTION) {
+                try {
+                    String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.ID_PESANAN = ?";
+                    PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
+                    pst.setString(1, ls_idpesanan);
+                    ResultSet rs = pst.executeQuery();
+                    if (rs.next()) {
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.ID_PESANAN = ?");
+                        pst_terimaupdate.setString(1, ls_idpesanan);
+                        pst_terimaupdate.executeUpdate();
+                    }
+                    JOptionPane.showMessageDialog(this, "Pesanan berhasil dibatalkan!");
+                    update_table_batal();
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage() + "- button terima bermasalah");
+                }
+                update_table_tunggu();
+            } else {
+                JOptionPane.showMessageDialog(this, "Perintah dibatalkan!");
+            }
+        }
+    }//GEN-LAST:event_lbl_batalMouseClicked
+
+    private void tampil_tabel_tunggupesanan() {
+        try {
+            String sql = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
+                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+            PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pstunggu_pesan.executeQuery();
+            DefaultTableModel tb_tunggupesanan = (DefaultTableModel) tabel_tunggupesanan.getModel();
+            tb_tunggupesanan.setRowCount(0);
+
+            while (rs.next()) {
+                Object data[] = new Object[3];
+                data[0] = rs.getString("ID_TRANSAKSI");
+                data[1] = rs.getString("ID_PEMBAYARAN");
+                data[2] = rs.getString("NO_ANTRIAN");
+                tb_tunggupesanan.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + "- tampil_tabel_tunggupesanan");
+        }
+    }
+
+    private void tampil_tabel_konfirmasipesanan() {
+        try {
+            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
+                    + "where riwayat_pesanan.STATUS = 'Terkonfirmasi' or 'terkonfirmasi'";
+            PreparedStatement pskonfirmasi_pesan = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pskonfirmasi_pesan.executeQuery();
+            DefaultTableModel tb_konfirmasipesanan = (DefaultTableModel) tabel_konfirmasipesanan.getModel();
+            tb_konfirmasipesanan.setRowCount(0);
+
+            while (rs.next()) {
+                Object data[] = new Object[3];
+                data[0] = rs.getString("ID_PESANAN");
+                data[1] = rs.getString("ID_BAYAR");
+                data[2] = rs.getString("STATUS");
+                tb_konfirmasipesanan.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " - tampil_tabel_konfirmasi pesanan");
+        }
+    }
+
+    private void tampil_tabel_batalpesanan() {
+        try {
+            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
+                    + "where riwayat_pesanan.STATUS = 'Batal' or 'batal'";
+            PreparedStatement psbatal_pesan = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = psbatal_pesan.executeQuery();
+            DefaultTableModel tb_batalpesanan = (DefaultTableModel) tabel_batalpesanan.getModel();
+            tb_batalpesanan.setRowCount(0);
+
+            while (rs.next()) {
+                Object data[] = new Object[3];
+                data[0] = rs.getString("ID_PESANAN");
+                data[1] = rs.getString("ID_BAYAR");
+                data[2] = rs.getString("STATUS");
+                tb_batalpesanan.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " - tampil_tabel_batal pesanan");
+        }
+    }
+
+    private void update_table_tunggu() {
+        try {
+            String sqltunggu = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
+                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqltunggu);
+            ResultSet rs = pst.executeQuery();
+            ResultSetMetaData stData = rs.getMetaData();
+            int q = stData.getColumnCount();
+            DefaultTableModel tb_tunggu = (DefaultTableModel) tabel_tunggupesanan.getModel();
+            tb_tunggu.setRowCount(0);
+
+            while (rs.next()) {
+                Vector columndata = new Vector();
+                for (int i = 1; i < q; i++) {
+                    columndata.add(rs.getString("ID_TRANSAKSI"));
+                    columndata.add(rs.getString("ID_PEMBAYARAN"));
+                    columndata.add(rs.getString("NO_ANTRIAN"));
+                }
+                tb_tunggu.addRow(columndata);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " - update_table_tunggu");
+        }
+    }
+
+    private void update_table_konfirmasi() {
+        try {
+            String sqlkonfirmasi = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqlkonfirmasi);
+            ResultSet rs = pst.executeQuery();
+            ResultSetMetaData stData = rs.getMetaData();
+            int q = stData.getColumnCount();
+            DefaultTableModel tb_konfirmasi = (DefaultTableModel) tabel_konfirmasipesanan.getModel();
+            tb_konfirmasi.setRowCount(0);
+
+            while (rs.next()) {
+                Vector columndata = new Vector();
+                for (int i = 1; i < q; i++) {
+                    columndata.add(rs.getString("ID_PESANAN"));
+                    columndata.add(rs.getString("ID_BAYAR"));
+                    columndata.add(rs.getString("STATUS"));
+                }
+                tb_konfirmasi.addRow(columndata);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " - update_table_konfirmasi");
+        }
+    }
+
+    private void update_table_batal() {
+        try {
+            String sqltunggu = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqltunggu);
+            ResultSet rs = pst.executeQuery();
+            ResultSetMetaData stData = rs.getMetaData();
+            int q = stData.getColumnCount();
+            DefaultTableModel tb_tunggu = (DefaultTableModel) tabel_batalpesanan.getModel();
+            tb_tunggu.setRowCount(0);
+
+            while (rs.next()) {
+                Vector columndata = new Vector();
+                for (int i = 1; i < q; i++) {
+                    columndata.add(rs.getString("ID_PESANAN"));
+                    columndata.add(rs.getString("ID_BAYAR"));
+                    columndata.add(rs.getString("STATUS"));
+                }
+                tb_tunggu.addRow(columndata);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " - update_table");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -88,5 +447,18 @@ public class pesanan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbl_batal;
+    private javax.swing.JLabel lbl_terima;
+    private javax.swing.JTable tabel_batalpesanan;
+    private javax.swing.JTable tabel_konfirmasipesanan;
+    private javax.swing.JTable tabel_tunggupesanan;
     // End of variables declaration//GEN-END:variables
 }

@@ -159,6 +159,9 @@ public class Index extends javax.swing.JFrame {
 
     private void lb_pesananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_pesananMouseClicked
         // TODO add your handling code here:
+        this.dispose();
+        setelah_pesan i = new setelah_pesan();
+        i.setVisible(true);
     }//GEN-LAST:event_lb_pesananMouseClicked
 
     

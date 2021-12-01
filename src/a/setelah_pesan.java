@@ -13,9 +13,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -36,7 +38,10 @@ public class setelah_pesan extends javax.swing.JFrame {
         initComponents();
         jPanel1.setBackground(new Color(0, 0, 0, 0));
         jPanel2.setBackground(new Color(0, 0, 0, 0));
+        jPanel3.setBackground(new Color(0, 0, 0, 20));
+        lbl_jumlahpesanan.setBackground(new Color(0, 0, 0, 0));
         tampilJList();
+        lbl_jumlahpesanan.setText("");
     }
 
     private void tampilJList() {
@@ -105,12 +110,12 @@ public class setelah_pesan extends javax.swing.JFrame {
         lb_batalkan = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lbl_jumlahpesanan = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<String>();
+        jList1 = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -125,53 +130,36 @@ public class setelah_pesan extends javax.swing.JFrame {
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_batalkan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_batalkanMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_batalkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 140, 30));
 
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jLabel1.setText("Jumlah Pesanan Rp.");
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel2.setText("Pembayaran");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 31, -1, -1));
 
         jLabel4.setText("Tunai");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 31, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addContainerGap(198, Short.MAX_VALUE))
-        );
+        lbl_jumlahpesanan.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.add(lbl_jumlahpesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 14, 60, 10));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 200, 250));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 200, 250));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX", "NO_ANTRIANX" };
             public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -229,8 +217,20 @@ public class setelah_pesan extends javax.swing.JFrame {
         jPanel2.add(jScrollPane1);
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 420, 540));
+
+        lb_konfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_konfirmMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_konfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 470, 150, 30));
-        getContentPane().add(lb_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(767, 10, 15, 15));
+
+        lb_exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_exitMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lb_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(762, 5, 20, 20));
 
         bg.setBackground(new java.awt.Color(255, 255, 153));
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/sng jare rizal.jpg"))); // NOI18N
@@ -244,10 +244,12 @@ public class setelah_pesan extends javax.swing.JFrame {
         try {
             int harga_asli = 0;
             String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
-            System.out.println(ls_antrian);
-            String sql = "select transaksi.id_menu, makanan.nama_makanan, transaksi.jumlah_pesanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
+//            System.out.println(ls_antrian);
+            String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
                     + " inner join makanan on makanan.id_menu = transaksi.id_menu"
                     + " inner join menu on menu.id_menu = transaksi.id_menu"
+                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
+                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
                     + " where transaksi.no_antrian = '" + ls_antrian + "'";
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
@@ -261,28 +263,30 @@ public class setelah_pesan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
-                System.out.println(ls_idmenu);
+//                System.out.println(ls_idmenu);
                 String ls_namamenu = rs.getString("NAMA_MAKANAN");
-                System.out.println(ls_namamenu);
+//                System.out.println(ls_namamenu);
                 String ls_jumlah = rs.getString("JUMLAH_PESANAN");
-                System.out.println(ls_jumlah);
+//                System.out.println(ls_jumlah);
                 int ls_harga = rs.getInt("HARGA");
                 harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
-                System.out.println(harga_asli);
+//                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-                System.out.println(ls_jumlah);
-                
+//                System.out.println(ls_jumlah);
+
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
                 columndata.add(ls_namamenu);
                 columndata.add(ls_jumlah);
                 columndata.add(ls_harga_asli);
-                
+
                 tb_transaksi.addRow(columndata);
             }
-            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
+            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan from transaksi"
                     + " inner join minuman on minuman.id_menu = transaksi.id_menu"
                     + " inner join menu on menu.id_menu = transaksi.id_menu"
+                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
+                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
                     + " where transaksi.no_antrian = '" + ls_antrian + "'";
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
@@ -300,17 +304,20 @@ public class setelah_pesan extends javax.swing.JFrame {
 //                System.out.println(ls_jumlah);
                 int ls_harga = rs.getInt("HARGA");
                 harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
-                System.out.println(harga_asli);
+//                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-                jLabel3.setText(String.valueOf(harga_asli));
+                lbl_jumlahpesanan.setText("");
+                lbl_jumlahpesanan.setText(String.valueOf(harga_asli));
 //                System.out.println(ls_jumlah);
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
                 columndata.add(ls_namamenu);
                 columndata.add(ls_jumlah);
                 columndata.add(ls_harga_asli);
-                
+
                 tb_transaksi.addRow(columndata);
+                
+                jLabel4.setText(rs.getString("WALET"));
             }
 
         } catch (Exception e) {
@@ -323,6 +330,61 @@ public class setelah_pesan extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
     }//GEN-LAST:event_formComponentShown
+
+    private void lb_konfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_konfirmMouseClicked
+        // TODO add your handling code here:
+        String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
+
+        if (ls_antrian == null && ls_antrian == "") {
+            JOptionPane.showMessageDialog(this, "Silahkan pilih salah satu nomor antrian!");
+            
+        } else {
+            
+            int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin memproses pesanan ini?");
+            if (opsi == JOptionPane.YES_OPTION) {
+                
+                try {
+                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
+                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
+//                String sql1 = "SELECT * FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN "
+//                        + "WHERE transaksi.NO_ANTRIAN = '"+ls_antrian+"'";
+                    PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql1);
+                    pst.setString(3, ls_antrian);
+                    ResultSet rs = pst.executeQuery();
+                    if (rs.next()) {
+                        PreparedStatement ps_tunggu = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Menunggu' WHERE riwayat_pesanan.ID_PESANAN = ?");
+                        ps_tunggu.setString(3, ls_antrian);
+                        ps_tunggu.executeUpdate();
+                    }
+                    JOptionPane.showMessageDialog(this, "Pesanan berhasil diteruskan");
+                    pesanan pesan = new pesanan();
+                    pesan.setVisible(true);
+                    this.setVisible(false);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage()+" - button konfirmasi setelah_pesan");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Batal memproses pesanan!");
+            }
+        }
+    }//GEN-LAST:event_lb_konfirmMouseClicked
+
+    private void lb_batalkanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_batalkanMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Pesanan dibatalkan!");
+        jTable2.clearSelection();
+        jList1.clearSelection();
+
+        lbl_jumlahpesanan.setText("");
+    }//GEN-LAST:event_lb_batalkanMouseClicked
+
+    private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Index i = new Index();
+        i.setVisible(true);
+    }//GEN-LAST:event_lb_exitMouseClicked
 
     /**
      * @param args the command line arguments
@@ -363,7 +425,6 @@ public class setelah_pesan extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
@@ -375,5 +436,6 @@ public class setelah_pesan extends javax.swing.JFrame {
     private javax.swing.JLabel lb_batalkan;
     private javax.swing.JLabel lb_exit;
     private javax.swing.JLabel lb_konfirm;
+    private javax.swing.JLabel lbl_jumlahpesanan;
     // End of variables declaration//GEN-END:variables
 }

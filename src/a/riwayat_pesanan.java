@@ -5,6 +5,11 @@
  */
 package a;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import static project_ap1_kasir.koneksi.con;
+
 /**
  *
  * @author ACER
@@ -16,6 +21,7 @@ public class riwayat_pesanan extends javax.swing.JFrame {
      */
     public riwayat_pesanan() {
         initComponents();
+        tampil_table();
     }
 
     /**
@@ -35,18 +41,24 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lb_back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_backMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 50, 20));
         getContentPane().add(lb_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 50, 20));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Pesanan", "ID Bayar", "Status"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -58,6 +70,33 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lb_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_backMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        Index i = new Index();
+        i.setVisible(true);
+    }//GEN-LAST:event_lb_backMouseClicked
+
+    private void tampil_table() {
+        try {
+            String sql =  "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+            PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
+            ResultSet rs = pstunggu_pesan.executeQuery();
+            DefaultTableModel tb_tunggupesanan = (DefaultTableModel) jTable1.getModel();
+            tb_tunggupesanan.setRowCount(0);
+
+            while (rs.next()) {
+                Object data[] = new Object[3];
+                data[0] = rs.getString("ID_TRANSAKSI");
+                data[1] = rs.getString("ID_PEMBAYARAN");
+                data[2] = rs.getString("STATUS");
+                tb_tunggupesanan.addRow(data);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + "- tampil_tabel_riwayat");
+        }
+    }
 
     /**
      * @param args the command line arguments
