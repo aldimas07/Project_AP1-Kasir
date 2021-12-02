@@ -98,7 +98,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No Antrian", "ID Bayar", "Status"
+                "No Antrian", "Pembayaran", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -212,8 +212,8 @@ public class pesanan extends javax.swing.JFrame {
                     pst.setString(1, ls_idpesanan);
                     ResultSet rs = pst.executeQuery();
                     if (rs.next()) {
-                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.ID_PESANAN = ?");
-                        pst_terimaupdate.setString(1, ls_idpesanan);
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.NO_ANTRIAN = ?");
+                        pst_terimaupdate.setString(1, rs.getString("NO_ANTRIAN"));
                         pst_terimaupdate.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Pesanan telah dikonfirmasi!");
@@ -250,7 +250,7 @@ public class pesanan extends javax.swing.JFrame {
                     pst.setString(1, ls_idpesanan);
                     ResultSet rs = pst.executeQuery();
                     if (rs.next()) {
-                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.ID_PESANAN = ?");
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.NO_ANTRIAN = ?");
                         pst_terimaupdate.setString(1, ls_idpesanan);
                         pst_terimaupdate.executeUpdate();
                     }
@@ -291,8 +291,9 @@ public class pesanan extends javax.swing.JFrame {
 
     private void tampil_tabel_konfirmasipesanan() {
         try {
-            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
-                    + "where riwayat_pesanan.STATUS = 'Terkonfirmasi' or 'terkonfirmasi'";
+            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN where riwayat_pesanan.STATUS = 'Terkonfirmasi' or 'terkonfirmasi'";
+//            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
+//                    + "where riwayat_pesanan.STATUS = ";
             PreparedStatement pskonfirmasi_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pskonfirmasi_pesan.executeQuery();
             DefaultTableModel tb_konfirmasipesanan = (DefaultTableModel) tabel_konfirmasipesanan.getModel();
@@ -300,8 +301,8 @@ public class pesanan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object data[] = new Object[3];
-                data[0] = rs.getString("ID_PESANAN");
-                data[1] = rs.getString("ID_BAYAR");
+                data[0] = rs.getString("NO_ANTRIAN");
+                data[1] = rs.getString("NAMA");
                 data[2] = rs.getString("STATUS");
                 tb_konfirmasipesanan.addRow(data);
             }
