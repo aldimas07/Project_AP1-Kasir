@@ -59,12 +59,14 @@ public class pesanan extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setLayout(new java.awt.GridLayout());
+
         tabel_tunggupesanan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Transaksi", "ID Bayar", "No Antrian"
+                "No Antrian", "Pembayaran", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -87,16 +89,7 @@ public class pesanan extends javax.swing.JFrame {
             tabel_tunggupesanan.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-        );
+        jPanel1.add(jScrollPane1);
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 410, 460));
 
@@ -105,7 +98,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pesanan", "ID Bayar", "Status"
+                "No Antrian", "ID Bayar", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -143,7 +136,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pesanan", "ID Bayar", "Status"
+                "No Antrian", "ID Bayar", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -214,7 +207,7 @@ public class pesanan extends javax.swing.JFrame {
             int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan menerima pesanan ini?");
             if (opsi == JOptionPane.YES_OPTION) {
                 try {
-                    String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.ID_PESANAN = ?";
+                    String sql = "SELECT riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.NO_ANTRIAN = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setString(1, ls_idpesanan);
                     ResultSet rs = pst.executeQuery();
@@ -276,8 +269,9 @@ public class pesanan extends javax.swing.JFrame {
 
     private void tampil_tabel_tunggupesanan() {
         try {
-            String sql = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
-                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+//            String sql = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
+//                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
             PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pstunggu_pesan.executeQuery();
             DefaultTableModel tb_tunggupesanan = (DefaultTableModel) tabel_tunggupesanan.getModel();
@@ -285,9 +279,9 @@ public class pesanan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object data[] = new Object[3];
-                data[0] = rs.getString("ID_TRANSAKSI");
-                data[1] = rs.getString("ID_PEMBAYARAN");
-                data[2] = rs.getString("NO_ANTRIAN");
+                data[0] = rs.getString("NO_ANTRIAN");
+                data[1] = rs.getString("NAMA");
+                data[2] = rs.getString("STATUS");
                 tb_tunggupesanan.addRow(data);
             }
         } catch (Exception e) {

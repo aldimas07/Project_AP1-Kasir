@@ -38,10 +38,10 @@ public class setelah_pesan extends javax.swing.JFrame {
         initComponents();
         jPanel1.setBackground(new Color(0, 0, 0, 0));
         jPanel2.setBackground(new Color(0, 0, 0, 0));
-        jPanel3.setBackground(new Color(0, 0, 0, 20));
-        lbl_jumlahpesanan.setBackground(new Color(0, 0, 0, 0));
+//        jPanel3.setBackground(new Color(0, 0, 0, 20));
+//        lbl_jumlahpesanan.setBackground(new Color(0, 0, 0, 0));
         tampilJList();
-        lbl_jumlahpesanan.setText("");
+//        lbl_jumlahpesanan.setText("");
     }
 
     private void tampilJList() {
@@ -108,11 +108,10 @@ public class setelah_pesan extends javax.swing.JFrame {
     private void initComponents() {
 
         lb_batalkan = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        lbl_jumlahpesanan = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -138,21 +137,20 @@ public class setelah_pesan extends javax.swing.JFrame {
         });
         getContentPane().add(lb_batalkan, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 520, 140, 30));
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setText("Jumlah Pesanan Rp.");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
-
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Pembayaran");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 31, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, -1, -1));
 
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tunai");
-        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 31, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 60, 80, -1));
 
-        lbl_jumlahpesanan.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel3.add(lbl_jumlahpesanan, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 14, 60, 10));
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, -1, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 200, 250));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Jumlah Pesanan Rp.");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 120, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
@@ -237,6 +235,7 @@ public class setelah_pesan extends javax.swing.JFrame {
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 600));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -244,13 +243,15 @@ public class setelah_pesan extends javax.swing.JFrame {
         try {
             int harga_asli = 0;
             String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
-//            System.out.println(ls_antrian);
-            String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
-                    + " inner join makanan on makanan.id_menu = transaksi.id_menu"
-                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
-                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
-                    + " where transaksi.no_antrian = '" + ls_antrian + "'";
+            System.out.println(ls_antrian);
+//            String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
+//                    + " inner join makanan on makanan.id_menu = transaksi.id_menu"
+//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
+//                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
+//                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
+//                    + " where transaksi.no_antrian = '" + ls_antrian + "'";
+            String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA from transaksi inner join makanan on makanan.id_menu = transaksi.id_menu inner join menu on menu.id_menu = transaksi.id_menu inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian inner join pembayaran on pembayaran.ID_PEMBAYARAN = transaksi.ID_PEMBAYARAN where transaksi.no_antrian = '" + ls_antrian + "'";
+            System.out.println();
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
 //                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
@@ -260,6 +261,7 @@ public class setelah_pesan extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             DefaultTableModel tb_transaksi = (DefaultTableModel) jTable2.getModel();
             tb_transaksi.setRowCount(0);
+            String pembayaran = "";
 
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
@@ -273,6 +275,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 //                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
 //                System.out.println(ls_jumlah);
+                pembayaran = rs.getString("NAMA");
 
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
@@ -282,6 +285,8 @@ public class setelah_pesan extends javax.swing.JFrame {
 
                 tb_transaksi.addRow(columndata);
             }
+            jLabel4.setText(pembayaran);
+            jLabel3.setText(String.valueOf(harga_asli));
             String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan from transaksi"
                     + " inner join minuman on minuman.id_menu = transaksi.id_menu"
                     + " inner join menu on menu.id_menu = transaksi.id_menu"
@@ -306,8 +311,8 @@ public class setelah_pesan extends javax.swing.JFrame {
                 harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
 //                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-                lbl_jumlahpesanan.setText("");
-                lbl_jumlahpesanan.setText(String.valueOf(harga_asli));
+//                lbl_jumlahpesanan.setText("");
+//                lbl_jumlahpesanan.setText(String.valueOf(harga_asli));
 //                System.out.println(ls_jumlah);
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
@@ -344,16 +349,18 @@ public class setelah_pesan extends javax.swing.JFrame {
             if (opsi == JOptionPane.YES_OPTION) {
                 
                 try {
-                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
-                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
+//                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi"
+//                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
+                      String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
+                    System.out.println(sql1);
 //                String sql1 = "SELECT * FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN "
 //                        + "WHERE transaksi.NO_ANTRIAN = '"+ls_antrian+"'";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql1);
-                    pst.setString(3, ls_antrian);
+//                    pst.setString(3, ls_antrian);
                     ResultSet rs = pst.executeQuery();
                     if (rs.next()) {
-                        PreparedStatement ps_tunggu = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Menunggu' WHERE riwayat_pesanan.ID_PESANAN = ?");
-                        ps_tunggu.setString(3, ls_antrian);
+                        PreparedStatement ps_tunggu = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Menunggu' WHERE riwayat_pesanan.NO_ANTRIAN = ?");
+                        ps_tunggu.setString(1, ls_antrian);
                         ps_tunggu.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Pesanan berhasil diteruskan");
@@ -376,7 +383,7 @@ public class setelah_pesan extends javax.swing.JFrame {
         jTable2.clearSelection();
         jList1.clearSelection();
 
-        lbl_jumlahpesanan.setText("");
+//        lbl_jumlahpesanan.setText("");
     }//GEN-LAST:event_lb_batalkanMouseClicked
 
     private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked
@@ -425,17 +432,16 @@ public class setelah_pesan extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lb_batalkan;
     private javax.swing.JLabel lb_exit;
     private javax.swing.JLabel lb_konfirm;
-    private javax.swing.JLabel lbl_jumlahpesanan;
     // End of variables declaration//GEN-END:variables
 }

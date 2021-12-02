@@ -109,6 +109,11 @@ public class Menu extends javax.swing.JFrame {
         jDialog3.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jDialog3.setTitle("Tambah Menu");
         jDialog3.setModal(true);
+        jDialog3.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jDialog3ComponentShown(evt);
+            }
+        });
 
         jLabel3.setText("ID Menu");
 
@@ -507,6 +512,7 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void lb_makananMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_makananMouseClicked
@@ -542,6 +548,11 @@ public class Menu extends javax.swing.JFrame {
     private void lb_tambahmenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_tambahmenuMouseClicked
         // TODO add your handling code here:
         jDialog3.pack();
+        jDialog3.setLocationRelativeTo(null);
+        txtIdMenu.setText("");
+        txtNamaMenu.setText("");
+        spStok.setValue(0);
+        spHarga.setValue(5000);
         jDialog3.setVisible(true);
         jDialog3.dispose();
         updatedbmakanan();
@@ -717,6 +728,7 @@ public class Menu extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex);
             }
             updatedbmakanan();
+            jDialog4.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Silakan klik salah satu menu dahulu!");
         }
@@ -777,6 +789,7 @@ public class Menu extends javax.swing.JFrame {
         if (idMenu_selected != null && idMenu_selected != "") {
             PreparedStatement pstMenu;
             jDialog4.pack();
+            
             jDialog4.setVisible(true);
             jDialog4.dispose();
         } else {
@@ -849,6 +862,10 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         jDialog4.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jDialog3ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jDialog3ComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDialog3ComponentShown
 
     private void list_menu_makanan() {
         try {
