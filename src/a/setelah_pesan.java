@@ -287,12 +287,12 @@ public class setelah_pesan extends javax.swing.JFrame {
             }
             jLabel4.setText(pembayaran);
             jLabel3.setText(String.valueOf(harga_asli));
-            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan from transaksi"
-                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
-                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
-                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
-                    + " where transaksi.no_antrian = '" + ls_antrian + "'";
+            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan from transaksi \n" +
+"inner join minuman on minuman.id_menu = transaksi.id_menu \n" +
+"inner join menu on menu.id_menu = transaksi.id_menu \n" +
+"inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian \n" +
+"inner join pembayaran on pembayaran.ID_PEMBAYARAN = transaksi.ID_PEMBAYARAN\n" +
+"where transaksi.no_antrian = '" + ls_antrian + "'";
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
 //                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
