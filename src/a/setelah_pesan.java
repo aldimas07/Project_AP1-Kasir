@@ -50,7 +50,7 @@ public class setelah_pesan extends javax.swing.JFrame {
             DefaultListModel model = new DefaultListModel(); //create a new list model
 
             Statement state = con.createStatement();
-            ResultSet resultSet = state.executeQuery("SELECT pelanggan.NO_ANTRIAN FROM pelanggan"); //run your query
+            ResultSet resultSet = state.executeQuery("SELECT NO_ANTRIAN FROM `transaksi` group by NO_ANTRIAN;"); //run your query
 
             while (resultSet.next()) //go through each row that your query returns
             {
@@ -146,11 +146,11 @@ public class setelah_pesan extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 60, 80, -1));
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 40, 10));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Jumlah Pesanan Rp.");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 120, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 130, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daftar Pesanan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
@@ -287,12 +287,12 @@ public class setelah_pesan extends javax.swing.JFrame {
             }
             jLabel4.setText(pembayaran);
             jLabel3.setText(String.valueOf(harga_asli));
-            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan from transaksi \n" +
+            String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA from transaksi \n" +
 "inner join minuman on minuman.id_menu = transaksi.id_menu \n" +
 "inner join menu on menu.id_menu = transaksi.id_menu \n" +
 "inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian \n" +
 "inner join pembayaran on pembayaran.ID_PEMBAYARAN = transaksi.ID_PEMBAYARAN\n" +
-"where transaksi.no_antrian = '" + ls_antrian + "'";
+"where transaksi.no_antrian = '" + ls_antrian +"'";
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
 //                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
@@ -322,7 +322,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 
                 tb_transaksi.addRow(columndata);
                 
-                jLabel4.setText(rs.getString("WALET"));
+                jLabel4.setText(rs.getString("NAMA"));
             }
 
         } catch (Exception e) {
