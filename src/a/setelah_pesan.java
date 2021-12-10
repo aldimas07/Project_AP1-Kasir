@@ -252,6 +252,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 //                    + " where transaksi.no_antrian = '" + ls_antrian + "'";
             String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA from transaksi inner join makanan on makanan.id_menu = transaksi.id_menu inner join menu on menu.id_menu = transaksi.id_menu inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian inner join pembayaran on pembayaran.ID_PEMBAYARAN = transaksi.ID_PEMBAYARAN where transaksi.no_antrian = '" + ls_antrian + "'";
             System.out.println();
+            
 
 //            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
 //                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
@@ -286,7 +287,8 @@ public class setelah_pesan extends javax.swing.JFrame {
                 tb_transaksi.addRow(columndata);
             }
             jLabel4.setText(pembayaran);
-            jLabel3.setText(String.valueOf(harga_asli));
+//            jLabel3.setText(String.valueOf(harga_asli));
+            
             String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA from transaksi \n" +
 "inner join minuman on minuman.id_menu = transaksi.id_menu \n" +
 "inner join menu on menu.id_menu = transaksi.id_menu \n" +
@@ -324,6 +326,7 @@ public class setelah_pesan extends javax.swing.JFrame {
                 
                 jLabel4.setText(rs.getString("NAMA"));
             }
+            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
