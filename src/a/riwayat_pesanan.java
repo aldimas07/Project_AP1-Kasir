@@ -58,10 +58,23 @@ public class riwayat_pesanan extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "ID Pesanan", "ID Bayar", "Status"
+                "ID Pesanan", "No Antrian", "ID Pembayaran"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 700, 410));
 
@@ -80,7 +93,7 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
     private void tampil_table() {
         try {
-            String sql =  "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+            String sql =  "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR FROM riwayat_pesanan";
             PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pstunggu_pesan.executeQuery();
             DefaultTableModel tb_tunggupesanan = (DefaultTableModel) jTable1.getModel();
@@ -88,9 +101,9 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object data[] = new Object[3];
-                data[0] = rs.getString("ID_TRANSAKSI");
-                data[1] = rs.getString("ID_PEMBAYARAN");
-                data[2] = rs.getString("STATUS");
+                data[0] = rs.getString("ID_PESANAN");
+                data[1] = rs.getString("NO_ANTRIAN");
+                data[2] = rs.getString("ID_BAYAR");
                 tb_tunggupesanan.addRow(data);
             }
         } catch (Exception e) {

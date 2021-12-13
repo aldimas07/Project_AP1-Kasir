@@ -19,8 +19,7 @@ import static project_ap1_kasir.koneksi.con;
  */
 public class pesanan extends javax.swing.JFrame {
 
-    String status_selected;
-    String ls_idpesanan;
+    private static String ls_idpesanan, get_idpembayaran, get_noantrian;
 
     /**
      * Creates new form pesanan
@@ -53,20 +52,18 @@ public class pesanan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lbl_batal = new javax.swing.JLabel();
         lbl_terima = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         tabel_tunggupesanan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "No Antrian", "Pembayaran", "Status"
+                "ID Pesanan", "No Antrian", "ID Pembayaran"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -98,7 +95,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No Antrian", "Pembayaran", "Status"
+                "ID Pesanan", "No Antrian", "ID Pembayaran"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -136,7 +133,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No Antrian", "ID Bayar", "Status"
+                "ID Pesanan", "No Antrian", "ID Pembayaran"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -188,12 +185,6 @@ public class pesanan extends javax.swing.JFrame {
         });
         getContentPane().add(lbl_terima, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 110, 40));
 
-        jLabel4.setText("jLabel4");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 120, 40));
-
-        jLabel5.setText("jLabel5");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 140, 40));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -207,13 +198,18 @@ public class pesanan extends javax.swing.JFrame {
             int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan menerima pesanan ini?");
             if (opsi == JOptionPane.YES_OPTION) {
                 try {
-                    String sql = "SELECT riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.NO_ANTRIAN = ?";
+//                    String sql = "SELECT riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.NO_ANTRIAN = ?";
+                    String sql = "SELECT * FROM riwayat_pesanan "
+                            + " WHERE riwayat_pesanan.NO_ANTRIAN = '" + get_noantrian + "'";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-                    pst.setString(1, ls_idpesanan);
+//                    pst.setString(1, ls_idpesanan);
                     ResultSet rs = pst.executeQuery();
                     if (rs.next()) {
-                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.NO_ANTRIAN = ?");
-                        pst_terimaupdate.setString(1, rs.getString("NO_ANTRIAN"));
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("INSERT INTO terima (ID_PESANAN, LD_KASIR, NO_ANTRIAN, ID_BAYAR) values (?,?,?,?)");
+                        pst_terimaupdate.setString(1, ls_idpesanan);
+                        pst_terimaupdate.setString(2, "KSR001");
+                        pst_terimaupdate.setString(3, get_noantrian);
+                        pst_terimaupdate.setString(4, get_idpembayaran);
                         pst_terimaupdate.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Pesanan telah dikonfirmasi!");
@@ -232,8 +228,8 @@ public class pesanan extends javax.swing.JFrame {
         // TODO add your handling code here:
         int baris = tabel_tunggupesanan.rowAtPoint(evt.getPoint());
         ls_idpesanan = tabel_tunggupesanan.getValueAt(baris, 0).toString();
-        String ls_idbayar = tabel_tunggupesanan.getValueAt(baris, 1).toString();
-        status_selected = tabel_tunggupesanan.getValueAt(baris, 2).toString();
+        get_noantrian = tabel_tunggupesanan.getValueAt(baris, 1).toString();
+        get_idpembayaran = tabel_tunggupesanan.getValueAt(baris, 2).toString();
     }//GEN-LAST:event_tabel_tunggupesananMouseClicked
 
     private void lbl_batalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_batalMouseClicked
@@ -242,23 +238,27 @@ public class pesanan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Silakan Pilih salah satu pesanan!");
 
         } else {
-            int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan menerima pesanan ini?");
+            int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin akan membatalkan pesanan ini?");
             if (opsi == JOptionPane.YES_OPTION) {
                 try {
-                    String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan WHERE riwayat_pesanan.ID_PESANAN = ?";
+                    String sql = "SELECT * FROM riwayat_pesanan WHERE riwayat_pesanan.NO_ANTRIAN = '" + get_noantrian + "'";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-                    pst.setString(1, ls_idpesanan);
+//                    pst.setString(1, ls_idpesanan);
                     ResultSet rs = pst.executeQuery();
                     if (rs.next()) {
-                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("UPDATE riwayat_pesanan SET status = 'Terkonfirmasi' WHERE riwayat_pesanan.NO_ANTRIAN = ?");
+                        PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("INSERT INTO tolak (ID_PESANAN, LD_KASIR, NO_ANTRIAN, ID_BAYAR) values (?,?,?,?)");
+//                        pst_terimaupdate.setString(1, ls_idpesanan);
                         pst_terimaupdate.setString(1, ls_idpesanan);
+                        pst_terimaupdate.setString(2, "KSR001");
+                        pst_terimaupdate.setString(3, get_noantrian);
+                        pst_terimaupdate.setString(4, get_idpembayaran);
                         pst_terimaupdate.executeUpdate();
                     }
                     JOptionPane.showMessageDialog(this, "Pesanan berhasil dibatalkan!");
                     update_table_batal();
 
                 } catch (Exception e) {
-                    System.out.println(e.getMessage() + "- button terima bermasalah");
+                    System.out.println(e.getMessage() + "- button BATAL bermasalah");
                 }
                 update_table_tunggu();
             } else {
@@ -271,17 +271,25 @@ public class pesanan extends javax.swing.JFrame {
         try {
 //            String sql = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
 //                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
-            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+//            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN"
+//                    + " FROM transaksi"
+//                    + " INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN"
+//                    + " INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN"
+//                    + " where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+
+            String sql = "SELECT * FROM riwayat_pesanan";
             PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pstunggu_pesan.executeQuery();
             DefaultTableModel tb_tunggupesanan = (DefaultTableModel) tabel_tunggupesanan.getModel();
             tb_tunggupesanan.setRowCount(0);
+            int ambil_row = tabel_tunggupesanan.getSelectedRow();
+//            get_noantrian = tb_tunggupesanan.getValueAt(ambil_row, 1).toString();
 
             while (rs.next()) {
                 Object data[] = new Object[3];
-                data[0] = rs.getString("NO_ANTRIAN");
-                data[1] = rs.getString("NAMA");
-                data[2] = rs.getString("STATUS");
+                data[0] = rs.getString("ID_PESANAN");
+                data[1] = rs.getString("NO_ANTRIAN");
+                data[2] = rs.getString("ID_BAYAR");
                 tb_tunggupesanan.addRow(data);
             }
         } catch (Exception e) {
@@ -291,9 +299,11 @@ public class pesanan extends javax.swing.JFrame {
 
     private void tampil_tabel_konfirmasipesanan() {
         try {
-            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN where riwayat_pesanan.STATUS = 'Terkonfirmasi' or 'terkonfirmasi'";
+//            String sql = "SELECT transaksi.NO_ANTRIAN, pembayaran.NAMA , riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN where riwayat_pesanan.STATUS = 'Terkonfirmasi' or 'terkonfirmasi'";
+
 //            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
 //                    + "where riwayat_pesanan.STATUS = ";
+            String sql = "SELECT * FROM terima";
             PreparedStatement pskonfirmasi_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pskonfirmasi_pesan.executeQuery();
             DefaultTableModel tb_konfirmasipesanan = (DefaultTableModel) tabel_konfirmasipesanan.getModel();
@@ -301,9 +311,9 @@ public class pesanan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object data[] = new Object[3];
-                data[0] = rs.getString("NO_ANTRIAN");
-                data[1] = rs.getString("NAMA");
-                data[2] = rs.getString("STATUS");
+                data[0] = rs.getString("ID_PESANAN");
+                data[1] = rs.getString("NO_ANTRIAN");
+                data[2] = rs.getString("ID_BAYAR");
                 tb_konfirmasipesanan.addRow(data);
             }
         } catch (Exception e) {
@@ -313,8 +323,7 @@ public class pesanan extends javax.swing.JFrame {
 
     private void tampil_tabel_batalpesanan() {
         try {
-            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
-                    + "where riwayat_pesanan.STATUS = 'Batal' or 'batal'";
+            String sql = "SELECT * FROM tolak";
             PreparedStatement psbatal_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = psbatal_pesan.executeQuery();
             DefaultTableModel tb_batalpesanan = (DefaultTableModel) tabel_batalpesanan.getModel();
@@ -323,8 +332,8 @@ public class pesanan extends javax.swing.JFrame {
             while (rs.next()) {
                 Object data[] = new Object[3];
                 data[0] = rs.getString("ID_PESANAN");
-                data[1] = rs.getString("ID_BAYAR");
-                data[2] = rs.getString("STATUS");
+                data[1] = rs.getString("NO_ANTRIAN");
+                data[2] = rs.getString("ID_BAYAR");
                 tb_batalpesanan.addRow(data);
             }
         } catch (Exception e) {
@@ -334,8 +343,9 @@ public class pesanan extends javax.swing.JFrame {
 
     private void update_table_tunggu() {
         try {
-            String sqltunggu = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
-                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+//            String sqltunggu = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
+//                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
+            String sqltunggu = "SELECT * FROM riwayat_pesanan";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqltunggu);
             ResultSet rs = pst.executeQuery();
             ResultSetMetaData stData = rs.getMetaData();
@@ -346,9 +356,9 @@ public class pesanan extends javax.swing.JFrame {
             while (rs.next()) {
                 Vector columndata = new Vector();
                 for (int i = 1; i < q; i++) {
-                    columndata.add(rs.getString("ID_TRANSAKSI"));
-                    columndata.add(rs.getString("ID_PEMBAYARAN"));
+                    columndata.add(rs.getString("ID_PESANAN"));
                     columndata.add(rs.getString("NO_ANTRIAN"));
+                    columndata.add(rs.getString("ID_BAYAR"));
                 }
                 tb_tunggu.addRow(columndata);
             }
@@ -359,7 +369,8 @@ public class pesanan extends javax.swing.JFrame {
 
     private void update_table_konfirmasi() {
         try {
-            String sqlkonfirmasi = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+//            String sqlkonfirmasi = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
+            String sqlkonfirmasi = "SELECT terima.ID_PESANAN, terima.NO_ANTRIAN, terima.ID_BAYAR FROM terima";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqlkonfirmasi);
             ResultSet rs = pst.executeQuery();
             ResultSetMetaData stData = rs.getMetaData();
@@ -371,8 +382,8 @@ public class pesanan extends javax.swing.JFrame {
                 Vector columndata = new Vector();
                 for (int i = 1; i < q; i++) {
                     columndata.add(rs.getString("ID_PESANAN"));
+                    columndata.add(rs.getString("NO_ANTRIAN"));
                     columndata.add(rs.getString("ID_BAYAR"));
-                    columndata.add(rs.getString("STATUS"));
                 }
                 tb_konfirmasi.addRow(columndata);
             }
@@ -383,25 +394,25 @@ public class pesanan extends javax.swing.JFrame {
 
     private void update_table_batal() {
         try {
-            String sqltunggu = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan";
-            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqltunggu);
+            String sqlbatal = "SELECT tolak.ID_PESANAN, tolak.NO_ANTRIAN, tolak.ID_BAYAR FROM tolak";
+            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqlbatal);
             ResultSet rs = pst.executeQuery();
             ResultSetMetaData stData = rs.getMetaData();
             int q = stData.getColumnCount();
-            DefaultTableModel tb_tunggu = (DefaultTableModel) tabel_batalpesanan.getModel();
-            tb_tunggu.setRowCount(0);
+            DefaultTableModel tb_batal = (DefaultTableModel) tabel_batalpesanan.getModel();
+            tb_batal.setRowCount(0);
 
             while (rs.next()) {
                 Vector columndata = new Vector();
                 for (int i = 1; i < q; i++) {
                     columndata.add(rs.getString("ID_PESANAN"));
+                    columndata.add(rs.getString("NO_ANTRIAN"));
                     columndata.add(rs.getString("ID_BAYAR"));
-                    columndata.add(rs.getString("STATUS"));
                 }
-                tb_tunggu.addRow(columndata);
+                tb_batal.addRow(columndata);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage() + " - update_table");
+            System.out.println(e.getMessage() + " - update_table batal");
         }
     }
 
@@ -442,8 +453,6 @@ public class pesanan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
