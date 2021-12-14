@@ -161,6 +161,7 @@ public class Index extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
         setelah_pesan i = new setelah_pesan();
+        i.setLdKasir(ld_kasir);
         i.setVisible(true);
     }//GEN-LAST:event_lb_pesananMouseClicked
 

@@ -28,6 +28,8 @@ import project_ap1_kasir.koneksi;
  * @author ACER
  */
 public class setelah_pesan extends javax.swing.JFrame {
+    private String ld_kasir;
+    private int glob_harga_asli;
 
     /**
      * Creates new form setelah_pesan
@@ -43,6 +45,9 @@ public class setelah_pesan extends javax.swing.JFrame {
         tampilJList();
 //        lbl_jumlahpesanan.setText("");
     }
+    public void setLdKasir(String ls_kasir) {
+        this.ld_kasir = ls_kasir;
+    }
 
     private void tampilJList() {
         try {
@@ -50,7 +55,7 @@ public class setelah_pesan extends javax.swing.JFrame {
             DefaultListModel model = new DefaultListModel(); //create a new list model
 
             Statement state = con.createStatement();
-            ResultSet resultSet = state.executeQuery("SELECT NO_ANTRIAN FROM `transaksi` group by NO_ANTRIAN;"); //run your query
+            ResultSet resultSet = state.executeQuery("SELECT NO_ANTRIAN FROM `transaksi` where NO_ANTRIAN not in (select NO_ANTRIAN from riwayat_pesanan) group by NO_ANTRIAN;"); //run your query
 
             while (resultSet.next()) //go through each row that your query returns
             {
@@ -260,6 +265,7 @@ public class setelah_pesan extends javax.swing.JFrame {
             DefaultTableModel tb_transaksi = (DefaultTableModel) jTable2.getModel();
             tb_transaksi.setRowCount(0);
             String pembayaran = "";
+            System.out.println(harga_asli);
 
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
@@ -283,6 +289,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 
                 tb_transaksi.addRow(columndata);
             }
+            System.out.println(harga_asli);
 
             jLabel4.setText(pembayaran);
 //            jLabel3.setText(String.valueOf(harga_asli));
@@ -300,6 +307,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 //                    + " where transaksi.no_antrian = '"+ls_antrian+"'group by menu.id_menu";
             PreparedStatement pst_min = (PreparedStatement) con.prepareStatement(sql_min);
             rs = pst_min.executeQuery();
+            System.out.println(harga_asli);
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
 //                System.out.println(ls_idmenu);
@@ -320,11 +328,26 @@ public class setelah_pesan extends javax.swing.JFrame {
                 columndata.add(ls_jumlah);
                 columndata.add(ls_harga_asli);
 
+                
                 tb_transaksi.addRow(columndata);
+                
+                
 
                 jLabel4.setText(rs.getString("NAMA"));
-                jLabel1.setText("Jumlah Pesanan Rp. " + String.valueOf(harga_asli));
+                
             }
+            int nilai_harga_asli = 0;
+            System.out.println(jTable2.getRowCount());
+            for (int a = 0; a < jTable2.getRowCount(); a++) {
+                int harga_men = Integer.parseInt(jTable2.getValueAt(a, 3).toString());
+                System.out.println(harga_men);
+                nilai_harga_asli = nilai_harga_asli + harga_men;
+                System.out.println(nilai_harga_asli);
+            }
+            glob_harga_asli = nilai_harga_asli;
+            System.out.println(harga_asli);
+            jLabel1.setText("Jumlah Pesanan Rp. " + String.valueOf(nilai_harga_asli));
+//            System.out.println(harga_asli);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -363,7 +386,7 @@ public class setelah_pesan extends javax.swing.JFrame {
 //                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, transaksi.ID_MENU, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN pelanggan ON pelanggan.NO_ANTRIAN = transaksi.NO_ANTRIAN \n"
 //                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = pelanggan.NO_ANTRIAN \n"
 //                            + "WHERE transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
-                    String sql1 = "SELECT * FROM riwayat_pesanan WHERE riwayat_pesanan.NO_ANTRIAN = '"+ls_antrian+"'";
+                    String sql1 = "select * from transaksi where NO_ANTRIAN = '" + ls_antrian + "' group by NO_ANTRIAN";
                     System.out.println(sql1);
 
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql1);
@@ -373,13 +396,15 @@ public class setelah_pesan extends javax.swing.JFrame {
                         PreparedStatement ps_tunggu = (PreparedStatement) con.prepareStatement("INSERT INTO riwayat_pesanan (ID_PESANAN, NO_ANTRIAN, ID_BAYAR) values (?,?,?)");
                         ps_tunggu.setInt(1, rand.nextInt(10000000));
                         ps_tunggu.setString(2, ls_antrian);
-                        ps_tunggu.setInt(3, angkaRand);
+                        ps_tunggu.setInt(3, glob_harga_asli);
                         ps_tunggu.executeUpdate();
                         System.out.println("\n mlaku - " + ps_tunggu);
                         System.out.println(ls_antrian);
                     }
                     JOptionPane.showMessageDialog(this, "Pesanan berhasil diteruskan");
                     pesanan pesan = new pesanan();
+                    pesan.setLdKasir(ld_kasir);
+                    pesan.setStlhPsn(this);
                     pesan.setVisible(true);
                     this.setVisible(false);
                 } catch (Exception e) {

@@ -18,6 +18,8 @@ import static project_ap1_kasir.koneksi.con;
  * @author ACER
  */
 public class pesanan extends javax.swing.JFrame {
+    public String ld_kasir;
+    private setelah_pesan stlah_psn;
 
     private static String ls_idpesanan, get_idpembayaran, get_noantrian;
 
@@ -29,6 +31,12 @@ public class pesanan extends javax.swing.JFrame {
         tampil_tabel_tunggupesanan();
         tampil_tabel_konfirmasipesanan();
         tampil_tabel_batalpesanan();
+    }
+    public void setLdKasir(String ld_kasir) {
+        this.ld_kasir = ld_kasir;
+    }
+    public void setStlhPsn(setelah_pesan stlh_psn) {
+        this.stlah_psn = stlh_psn;
     }
 
     /**
@@ -54,6 +62,11 @@ public class pesanan extends javax.swing.JFrame {
         lbl_terima = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
@@ -63,7 +76,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pesanan", "No Antrian", "ID Pembayaran"
+                "ID Pesanan", "No Antrian", "Total Bayar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -95,7 +108,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pesanan", "No Antrian", "ID Pembayaran"
+                "ID Pesanan", "No Antrian", "Total Bayar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -133,7 +146,7 @@ public class pesanan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Pesanan", "No Antrian", "ID Pembayaran"
+                "ID Pesanan", "No Antrian", "Total Bayar"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -186,6 +199,7 @@ public class pesanan extends javax.swing.JFrame {
         getContentPane().add(lbl_terima, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 110, 40));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbl_terimaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_terimaMouseClicked
@@ -207,11 +221,12 @@ public class pesanan extends javax.swing.JFrame {
                     if (rs.next()) {
                         PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("INSERT INTO terima (ID_PESANAN, LD_KASIR, NO_ANTRIAN, ID_BAYAR) values (?,?,?,?)");
                         pst_terimaupdate.setString(1, ls_idpesanan);
-                        pst_terimaupdate.setString(2, "KSR001");
+                        pst_terimaupdate.setString(2, ld_kasir);
                         pst_terimaupdate.setString(3, get_noantrian);
                         pst_terimaupdate.setString(4, get_idpembayaran);
                         pst_terimaupdate.executeUpdate();
                     }
+//                    PreparedStatement dropwait = con.prepareStatement("delete from riwayat")
                     JOptionPane.showMessageDialog(this, "Pesanan telah dikonfirmasi!");
                     update_table_konfirmasi();
                 } catch (Exception e) {
@@ -249,7 +264,7 @@ public class pesanan extends javax.swing.JFrame {
                         PreparedStatement pst_terimaupdate = (PreparedStatement) con.prepareStatement("INSERT INTO tolak (ID_PESANAN, LD_KASIR, NO_ANTRIAN, ID_BAYAR) values (?,?,?,?)");
 //                        pst_terimaupdate.setString(1, ls_idpesanan);
                         pst_terimaupdate.setString(1, ls_idpesanan);
-                        pst_terimaupdate.setString(2, "KSR001");
+                        pst_terimaupdate.setString(2, ld_kasir);
                         pst_terimaupdate.setString(3, get_noantrian);
                         pst_terimaupdate.setString(4, get_idpembayaran);
                         pst_terimaupdate.executeUpdate();
@@ -267,6 +282,12 @@ public class pesanan extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbl_batalMouseClicked
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        stlah_psn.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
+
     private void tampil_tabel_tunggupesanan() {
         try {
 //            String sql = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
@@ -277,7 +298,7 @@ public class pesanan extends javax.swing.JFrame {
 //                    + " INNER join pembayaran on transaksi.ID_PEMBAYARAN = pembayaran.ID_PEMBAYARAN"
 //                    + " where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
 
-            String sql = "SELECT * FROM riwayat_pesanan";
+            String sql = "SELECT * FROM `riwayat_pesanan` where ID_PESANAN not in (select ID_PESANAN from terima) and ID_PESANAN not in (select ID_PESANAN from tolak)";
             PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pstunggu_pesan.executeQuery();
             DefaultTableModel tb_tunggupesanan = (DefaultTableModel) tabel_tunggupesanan.getModel();
@@ -303,7 +324,7 @@ public class pesanan extends javax.swing.JFrame {
 
 //            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.ID_BAYAR, riwayat_pesanan.STATUS from riwayat_pesanan "
 //                    + "where riwayat_pesanan.STATUS = ";
-            String sql = "SELECT * FROM terima";
+            String sql = "SELECT * FROM terima group by no_antrian";
             PreparedStatement pskonfirmasi_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pskonfirmasi_pesan.executeQuery();
             DefaultTableModel tb_konfirmasipesanan = (DefaultTableModel) tabel_konfirmasipesanan.getModel();
@@ -323,7 +344,7 @@ public class pesanan extends javax.swing.JFrame {
 
     private void tampil_tabel_batalpesanan() {
         try {
-            String sql = "SELECT * FROM tolak";
+            String sql = "SELECT * FROM tolak group by no_antrian";
             PreparedStatement psbatal_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = psbatal_pesan.executeQuery();
             DefaultTableModel tb_batalpesanan = (DefaultTableModel) tabel_batalpesanan.getModel();
@@ -345,7 +366,7 @@ public class pesanan extends javax.swing.JFrame {
         try {
 //            String sqltunggu = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi\n"
 //                    + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where riwayat_pesanan.STATUS = 'Menunggu' or 'menunggu'";
-            String sqltunggu = "SELECT * FROM riwayat_pesanan";
+            String sqltunggu = "SELECT * FROM `riwayat_pesanan` where ID_PESANAN not in (select ID_PESANAN from terima) and ID_PESANAN not in (select ID_PESANAN from tolak)";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sqltunggu);
             ResultSet rs = pst.executeQuery();
             ResultSetMetaData stData = rs.getMetaData();
