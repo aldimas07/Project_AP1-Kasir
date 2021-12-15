@@ -60,6 +60,8 @@ public class pesanan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lbl_batal = new javax.swing.JLabel();
         lbl_terima = new javax.swing.JLabel();
+        lbl_back = new javax.swing.JLabel();
+        lbl_riwayat = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -101,7 +103,7 @@ public class pesanan extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 410, 460));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 420, 460));
 
         tabel_konfirmasipesanan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,11 +137,11 @@ public class pesanan extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, 300, 210));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 300, 220));
 
         tabel_batalpesanan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -177,9 +179,9 @@ public class pesanan extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 340, 300, 220));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 360, 300, 210));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/pesanan.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/pesanan rev.jpg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         lbl_batal.setText("jLabel1");
@@ -188,7 +190,7 @@ public class pesanan extends javax.swing.JFrame {
                 lbl_batalMouseClicked(evt);
             }
         });
-        getContentPane().add(lbl_batal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 540, 140, 40));
+        getContentPane().add(lbl_batal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 140, 40));
 
         lbl_terima.setText("jLabel3");
         lbl_terima.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -196,7 +198,23 @@ public class pesanan extends javax.swing.JFrame {
                 lbl_terimaMouseClicked(evt);
             }
         });
-        getContentPane().add(lbl_terima, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 110, 40));
+        getContentPane().add(lbl_terima, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 550, 110, 40));
+
+        lbl_back.setText("jLabel1");
+        lbl_back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_backMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lbl_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 50, 20));
+
+        lbl_riwayat.setText("jLabel1");
+        lbl_riwayat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_riwayatMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lbl_riwayat, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, 40, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -287,6 +305,30 @@ public class pesanan extends javax.swing.JFrame {
         stlah_psn.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
+
+    private void lbl_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_backMouseClicked
+        // TODO add your handling code here:
+        int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda ingin kembali ke halaman setelah_pesan?");
+        if (opsi == JOptionPane.YES_OPTION) { 
+            this.dispose();
+            setelah_pesan i = new setelah_pesan();
+            i.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Perintah dibatalkan!");
+        }
+    }//GEN-LAST:event_lbl_backMouseClicked
+
+    private void lbl_riwayatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_riwayatMouseClicked
+        // TODO add your handling code here:
+        int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menuju halaman riwayat_pesanan?");
+        if (opsi == JOptionPane.YES_OPTION) {
+            this.dispose();
+            riwayat_pesanan i = new riwayat_pesanan();
+            i.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Perintah dibatalkan!");
+        }
+    }//GEN-LAST:event_lbl_riwayatMouseClicked
 
     private void tampil_tabel_tunggupesanan() {
         try {
@@ -480,7 +522,9 @@ public class pesanan extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbl_back;
     private javax.swing.JLabel lbl_batal;
+    private javax.swing.JLabel lbl_riwayat;
     private javax.swing.JLabel lbl_terima;
     private javax.swing.JTable tabel_batalpesanan;
     private javax.swing.JTable tabel_konfirmasipesanan;

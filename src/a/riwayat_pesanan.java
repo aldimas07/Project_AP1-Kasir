@@ -48,6 +48,12 @@ public class riwayat_pesanan extends javax.swing.JFrame {
             }
         });
         getContentPane().add(lb_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 50, 20));
+
+        lb_next.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lb_nextMouseClicked(evt);
+            }
+        });
         getContentPane().add(lb_next, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 50, 20));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -76,7 +82,7 @@ public class riwayat_pesanan extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 700, 410));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 720, 430));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/riwayat pesanan.jpg"))); // NOI18N
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -91,6 +97,10 @@ public class riwayat_pesanan extends javax.swing.JFrame {
         Index i = new Index();
         i.setVisible(true);
     }//GEN-LAST:event_lb_backMouseClicked
+
+    private void lb_nextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_nextMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lb_nextMouseClicked
 
     private void tampil_table() {
         try {

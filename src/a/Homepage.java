@@ -58,7 +58,7 @@ public class Homepage extends javax.swing.JFrame {
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gambar/home page rev.jpg"))); // NOI18N
         bg.setText("bg");
-        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
 
         pack();
         setLocationRelativeTo(null);
