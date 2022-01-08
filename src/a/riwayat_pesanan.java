@@ -63,17 +63,17 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Pesanan", "No Antrian", "ID Pembayaran"
+                "ID Pesanan", "No Antrian", "ID Pembayaran", "Status Pembayaran"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -133,10 +133,26 @@ public class riwayat_pesanan extends javax.swing.JFrame {
             tb_tunggupesanan.setRowCount(0);
 
             while (rs.next()) {
-                Object data[] = new Object[3];
+                Object data[] = new Object[4];
                 data[0] = rs.getString("ID_PESANAN");
                 data[1] = rs.getString("NO_ANTRIAN");
                 data[2] = rs.getString("ID_BAYAR");
+                PreparedStatement psterima = con.prepareStatement("select * from terima where ID_PESANAN = ?");
+                psterima.setInt(1, rs.getInt("ID_PESANAN"));
+                ResultSet rsTerima = psterima.executeQuery();
+                if (rsTerima.isBeforeFirst() ) {    
+                    data[3] = "Terima";
+                } else {
+                    PreparedStatement psttolak = con.prepareStatement("select * from tolak where ID_PESANAN = ?");
+                    psttolak.setInt(1, rs.getInt("ID_PESANAN"));
+                    ResultSet rsTolak = psttolak.executeQuery();
+                    if (rsTolak.isBeforeFirst() ) {    
+                        data[3] = "Tolak";
+                    } else {
+                        data[3] = "Menunggu";
+                    }
+                }
+                
                 tb_tunggupesanan.addRow(data);
             }
         } catch (Exception e) {
