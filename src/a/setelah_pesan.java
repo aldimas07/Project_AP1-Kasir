@@ -5,22 +5,16 @@
  */
 package a;
 
-import static a.Menu.con;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import project_ap1_kasir.koneksi;
 
 /**
@@ -28,6 +22,7 @@ import project_ap1_kasir.koneksi;
  * @author ACER
  */
 public class setelah_pesan extends javax.swing.JFrame {
+
     private String ld_kasir;
     private int glob_harga_asli;
 
@@ -40,11 +35,10 @@ public class setelah_pesan extends javax.swing.JFrame {
         initComponents();
         jPanel1.setBackground(new Color(0, 0, 0, 0));
         jPanel2.setBackground(new Color(0, 0, 0, 0));
-//        jPanel3.setBackground(new Color(0, 0, 0, 20));
-//        lbl_jumlahpesanan.setBackground(new Color(0, 0, 0, 0));
         tampilJList();
-//        lbl_jumlahpesanan.setText("");
+
     }
+
     public void setLdKasir(String ls_kasir) {
         this.ld_kasir = ls_kasir;
     }
@@ -69,40 +63,6 @@ public class setelah_pesan extends javax.swing.JFrame {
         }
     }
 
-//    private void updatetable() {
-//        try {
-//            String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
-//            String sql = "select transaksi.id_menu, makanan.nama_makanan, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) AS HARGA from transaksi"
-//                    + " inner join makanan on makanan.id_menu = transaksi.id_menu"
-//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-//                    + " where transaksi.no_antrian = '" + ls_antrian + "'group by menu.id_menu";
-//
-////            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
-////                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
-////                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-////                    + " where transaksi.no_antrian = '"+ls_antrian+"'group by menu.id_menu";
-//            PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-//            ResultSet rs = pst.executeQuery();
-//            ResultSetMetaData stData = rs.getMetaData();
-//            int q = stData.getColumnCount();
-//
-//            DefaultTableModel tb_transaksi = (DefaultTableModel) jTable2.getModel();
-//            tb_transaksi.setColumnCount(0);
-//
-//            while (rs.next()) {
-//                Vector columndata = new Vector();
-//                for (int i = 1; i < q; i++) {
-//                    columndata.add(rs.getString("ID_MENU"));
-//                    columndata.add(rs.getString("NAMA_MAKANAN"));
-//                    columndata.add(rs.getString("JUMLAH_PESANAN"));
-//                    columndata.add(rs.getString("HARGA"));
-//                }
-//                tb_transaksi.addRow(columndata);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,12 +202,7 @@ public class setelah_pesan extends javax.swing.JFrame {
             int harga_asli = 0;
             String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
             System.out.println(ls_antrian);
-//            String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan from transaksi"
-//                    + " inner join makanan on makanan.id_menu = transaksi.id_menu"
-//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-//                    + " inner join pelanggan on pelanggan.no_antrian = transaksi.no_antrian"
-//                    + " inner join metode_pembayaran on metode_pembayaran.no_antrian = pelanggan.no_antrian"
-//                    + " where transaksi.no_antrian = '" + ls_antrian + "'";
+
             String sql = "select transaksi.id_menu, makanan.nama_makanan, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA"
                     + " from transaksi"
                     + " inner join makanan on makanan.id_menu = transaksi.id_menu"
@@ -256,10 +211,6 @@ public class setelah_pesan extends javax.swing.JFrame {
                     + " where transaksi.no_antrian = '" + ls_antrian + "' and transaksi.jumlah_pesanan >0";
             System.out.println();
 
-//            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
-//                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
-//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-//                    + " where transaksi.no_antrian = '"+ls_antrian+"'group by menu.id_menu";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             DefaultTableModel tb_transaksi = (DefaultTableModel) jTable2.getModel();
@@ -269,16 +220,17 @@ public class setelah_pesan extends javax.swing.JFrame {
 
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
-//                System.out.println(ls_idmenu);
+
                 String ls_namamenu = rs.getString("NAMA_MAKANAN");
-//                System.out.println(ls_namamenu);
+
                 String ls_jumlah = rs.getString("JUMLAH_PESANAN");
-//                System.out.println(ls_jumlah);
+
                 int ls_harga = rs.getInt("HARGA");
+
                 harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
-//                System.out.println(harga_asli);
+
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-//                System.out.println(ls_jumlah);
+
                 pembayaran = rs.getString("NAMA");
 
                 Vector columndata = new Vector();
@@ -292,7 +244,6 @@ public class setelah_pesan extends javax.swing.JFrame {
             System.out.println(harga_asli);
 
             jLabel4.setText(pembayaran);
-//            jLabel3.setText(String.valueOf(harga_asli));
 
             String sql_min = "select transaksi.id_menu, minuman.nama_minuman, menu.harga, transaksi.jumlah_pesanan, pembayaran.NAMA from transaksi \n"
                     + "inner join minuman on minuman.id_menu = transaksi.id_menu \n"
@@ -301,40 +252,28 @@ public class setelah_pesan extends javax.swing.JFrame {
                     + "inner join pembayaran on pembayaran.ID_PEMBAYARAN = transaksi.ID_PEMBAYARAN\n"
                     + "where transaksi.no_antrian = '" + ls_antrian + "' and transaksi.jumlah_pesanan > 0";
 
-//            String sql2 = "select transaksi.id_menu, minuman.nama_minuman, transaksi.jumlah_pesanan, sum(menu.harga * transaksi.jumlah_pesanan) from transaksi"
-//                    + " inner join minuman on minuman.id_menu = transaksi.id_menu"
-//                    + " inner join menu on menu.id_menu = transaksi.id_menu"
-//                    + " where transaksi.no_antrian = '"+ls_antrian+"'group by menu.id_menu";
             PreparedStatement pst_min = (PreparedStatement) con.prepareStatement(sql_min);
             rs = pst_min.executeQuery();
             System.out.println(harga_asli);
             while (rs.next()) {
                 String ls_idmenu = rs.getString("ID_MENU");
-//                System.out.println(ls_idmenu);
                 String ls_namamenu = rs.getString("NAMA_MINUMAN");
-//                System.out.println(ls_namamenu);
                 String ls_jumlah = rs.getString("JUMLAH_PESANAN");
-//                System.out.println(ls_jumlah);
+
                 int ls_harga = rs.getInt("HARGA");
                 harga_asli = harga_asli + (ls_harga * Integer.valueOf(ls_jumlah));
-//                System.out.println(harga_asli);
                 int ls_harga_asli = ls_harga * Integer.valueOf(ls_jumlah);
-//                lbl_jumlahpesanan.setText("");
-//                lbl_jumlahpesanan.setText(String.valueOf(harga_asli));
-//                System.out.println(ls_jumlah);
+
                 Vector columndata = new Vector();
                 columndata.add(ls_idmenu);
                 columndata.add(ls_namamenu);
                 columndata.add(ls_jumlah);
                 columndata.add(ls_harga_asli);
 
-                
                 tb_transaksi.addRow(columndata);
-                
-                
 
                 jLabel4.setText(rs.getString("NAMA"));
-                
+
             }
             int nilai_harga_asli = 0;
             System.out.println(jTable2.getRowCount());
@@ -347,7 +286,6 @@ public class setelah_pesan extends javax.swing.JFrame {
             glob_harga_asli = nilai_harga_asli;
             System.out.println(harga_asli);
             jLabel1.setText("Jumlah Pesanan Rp. " + String.valueOf(nilai_harga_asli));
-//            System.out.println(harga_asli);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -362,35 +300,20 @@ public class setelah_pesan extends javax.swing.JFrame {
 
     private void lb_konfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_konfirmMouseClicked
         // TODO add your handling code here:
-        String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
         Random rand = new Random();
         int angkaRand = rand.nextInt(10000000);
-        if (ls_antrian == null && ls_antrian == "") {
-            JOptionPane.showMessageDialog(this, "Silahkan pilih salah satu nomor antrian!");
-
+        int index = jList1.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Silakan pilih salah satu daftar pesanan terlebih dahulu!");
         } else {
-
             int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin memproses pesanan ini?");
             if (opsi == JOptionPane.YES_OPTION) {
-
                 try {
-//                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN FROM transaksi"
-//                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.ID_PESANAN = transaksi.ID_PESANAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
-//                      String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, riwayat_pesanan.STATUS, transaksi.NO_ANTRIAN "
-//                              + "FROM transaksi "
-//                              + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = transaksi.NO_ANTRIAN where transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
-//                    String sql1 = "SELECT * FROM transaksi "
-//                            + "INNER JOIN pelanggan ON pelanggan.NO_ANTRIAN = transaksi.NO_ANTRIAN "
-//                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = pelanggan.NO_ANTRIAN "
-//                            + "WHERE transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
-//                    String sql1 = "SELECT transaksi.ID_TRANSAKSI, transaksi.ID_PEMBAYARAN, transaksi.ID_MENU, transaksi.NO_ANTRIAN FROM transaksi INNER JOIN pelanggan ON pelanggan.NO_ANTRIAN = transaksi.NO_ANTRIAN \n"
-//                            + "INNER JOIN riwayat_pesanan ON riwayat_pesanan.NO_ANTRIAN = pelanggan.NO_ANTRIAN \n"
-//                            + "WHERE transaksi.NO_ANTRIAN = '" + ls_antrian + "'";
+                    String ls_antrian = String.valueOf(jList1.getModel().getElementAt(jList1.getSelectedIndex()));
                     String sql1 = "select * from transaksi where NO_ANTRIAN = '" + ls_antrian + "' group by NO_ANTRIAN";
                     System.out.println(sql1);
 
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql1);
-//                    pst.setString(1, ls_antrian);
                     ResultSet rs = pst.executeQuery();
                     while (rs.next()) {
                         PreparedStatement ps_tunggu = (PreparedStatement) con.prepareStatement("INSERT INTO riwayat_pesanan (ID_PESANAN, NO_ANTRIAN, ID_BAYAR) values (?,?,?)");
@@ -415,15 +338,26 @@ public class setelah_pesan extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Batal memproses pesanan!");
             }
         }
+
     }//GEN-LAST:event_lb_konfirmMouseClicked
 
     private void lb_batalkanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_batalkanMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Pesanan dibatalkan!");
-        jTable2.clearSelection();
-        jList1.clearSelection();
-
-//        lbl_jumlahpesanan.setText("");
+        int index = jList1.getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Tidak ada pesanan yang dipilih!");
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Pesanan dibatalkan!");
+            DefaultTableModel dm = (DefaultTableModel) jTable2.getModel();
+            dm.getDataVector().removeAllElements();
+            dm.fireTableDataChanged();
+            jList1.clearSelection();
+            jList1.setSelectedIndex(-1);
+            jLabel1.setText("Jumlah Pesanan Rp.");
+            jLabel4.setText("");
+           
+        }
     }//GEN-LAST:event_lb_batalkanMouseClicked
 
     private void lb_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_exitMouseClicked

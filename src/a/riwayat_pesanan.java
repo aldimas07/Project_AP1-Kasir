@@ -5,16 +5,21 @@
  */
 package a;
 
+import static a.Login.username;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static project_ap1_kasir.koneksi.con;
+import project_ap1_kasir.koneksi;
 
 /**
  *
  * @author ACER
  */
 public class riwayat_pesanan extends javax.swing.JFrame {
+
+    public static Connection con = new koneksi().ambil_koneksi();
 
     /**
      * Creates new form riwayat_pesanan
@@ -93,18 +98,35 @@ public class riwayat_pesanan extends javax.swing.JFrame {
 
     private void lb_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_backMouseClicked
         // TODO add your handling code here:
-        this.dispose();
-        Index i = new Index();
-        i.setVisible(true);
+        int opsi = JOptionPane.showConfirmDialog(this, "Apakah Anda ingin kembali ke halaman index?");
+        if (opsi == JOptionPane.YES_OPTION) {
+            
+            try {
+                String cek_username = "SELECT * FROM kasir WHERE USERNAME = '" + a.Login.username + "'";
+                ResultSet res_cekuser = con.prepareStatement(cek_username).executeQuery();
+                if (res_cekuser.next()) {
+                    this.dispose();
+                    Index i = new Index();
+                    i.setLd_kasir(res_cekuser.getString("LD_KASIR"));
+                    i.setVisible(true);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Perintah dibatalkan!");
+        }
     }//GEN-LAST:event_lb_backMouseClicked
 
     private void lb_nextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_nextMouseClicked
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Halaman kosong!");
     }//GEN-LAST:event_lb_nextMouseClicked
 
     private void tampil_table() {
         try {
-            String sql =  "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR FROM riwayat_pesanan";
+            String sql = "SELECT riwayat_pesanan.ID_PESANAN, riwayat_pesanan.NO_ANTRIAN, riwayat_pesanan.ID_BAYAR FROM riwayat_pesanan";
             PreparedStatement pstunggu_pesan = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs = pstunggu_pesan.executeQuery();
             DefaultTableModel tb_tunggupesanan = (DefaultTableModel) jTable1.getModel();
